@@ -19,12 +19,6 @@ const RootNavbar = () => {
       <li>
         <NavLink to={"/teach-on-skill-space"}>Teach on Skill Space</NavLink>
       </li>
-      <li>
-        <NavLink to={"/"}>Home</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/"}>Home</NavLink>
-      </li>
     </>
   );
   const privateLinks = <></>;
@@ -120,19 +114,19 @@ const RootNavbar = () => {
                 Log Out
               </button>
             </>
-          ) : location.pathname === "/signin" ? (
+          ) : location.pathname === "/sign-in" ? (
             <Link
-              to={"/sign-up"}
+              to={"/signup"}
               className="btn ml-3 btn-outline border-2 text-base text-white "
             >
-              Register
+              Signup
             </Link>
           ) : (
             <Link
               to={"/sign-in"}
               className="btn ml-3 btn-outline border-2 text-base text-white "
             >
-              Log In
+              Sign In
             </Link>
           )}
         </div>
