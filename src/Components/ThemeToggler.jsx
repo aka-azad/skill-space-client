@@ -1,11 +1,34 @@
+import  { useState, useEffect } from 'react';
 
 const ThemeToggler = () => {
+  const [isNightTheme, setIsNightTheme] = useState(false);
+
+  useEffect(() => {
+    // Get the theme from local storage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'nightTheme') {
+      setIsNightTheme(true);
+      document.documentElement.setAttribute('data-theme', 'nightTheme');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'default');
+    }
+  }, []);
+
+  const handleThemeChange = () => {
+    const newTheme = !isNightTheme ? 'nightTheme' : 'default';
+    setIsNightTheme(!isNightTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
   return (
     <div>
       <label className="grid cursor-pointer place-items-center">
         <input
           type="checkbox"
-          value="synthwave"
+          checked={isNightTheme}
+          onChange={handleThemeChange}
+          value={isNightTheme ? 'nightTheme' : 'lightTheme'}
           className="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1"
         />
         <svg
