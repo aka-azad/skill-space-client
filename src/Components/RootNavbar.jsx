@@ -122,14 +122,14 @@ const RootNavbar = () => {
             </>
           ) : location.pathname === "/signin" ? (
             <Link
-              to={"/register"}
+              to={"/sign-up"}
               className="btn ml-3 btn-outline border-2 text-base text-white "
             >
               Register
             </Link>
           ) : (
             <Link
-              to={"/signin"}
+              to={"/sign-in"}
               className="btn ml-3 btn-outline border-2 text-base text-white "
             >
               Log In
