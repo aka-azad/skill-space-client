@@ -4,12 +4,14 @@ import { toast } from "react-toastify";
 import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import { Link } from "react-router";
+import { Helmet } from "react-helmet";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/login-animate.svg";
-import { Helmet } from "react-helmet";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignIn = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -19,9 +21,25 @@ const SignIn = () => {
 
   const onSubmit = (data) => {
     signinWithEmailPass(data.email, data.password)
-      .then(() => {
-        toast.success("Sign in successful!");
-        // store info of sign-in to db
+      .then((res) => {
+        const { displayName, photoURL, email } = res.user;
+
+        // Store sign-in info to DB
+        axiosPublic
+          .post("/users", {
+            displayName,
+            photoURL,
+            email,
+            lastSignIn: new Date().toISOString(),
+          })
+          .then(() => {
+            toast.success("Sign in successful!");
+            // Handle post response if needed
+          })
+          .catch((error) => {
+            toast.error("Error saving sign-in info: " + error.message);
+            console.error("Error saving sign-in info: ", error);
+          });
       })
       .catch((error) => {
         toast.error("Error signing in: " + error.message);
@@ -30,9 +48,25 @@ const SignIn = () => {
 
   const handleGoogleSignIn = () => {
     signinWithGoogle()
-      .then(() => {
-        toast.success("Google sign-in successful!");
-        // store info of sign-in to db if new user store user to db
+      .then((res) => {
+        const { displayName, photoURL, email } = res.user;
+
+        // Store sign-in info to DB if new user, store user to DB
+        axiosPublic
+          .post("/users", {
+            displayName,
+            photoURL,
+            email,
+            lastSignIn: new Date().toISOString(),
+          })
+          .then(() => {
+            toast.success("Google sign-in successful!");
+            // Handle post response if needed
+          })
+          .catch((error) => {
+            toast.error("Error saving sign-in info: " + error.message);
+            console.error("Error saving sign-in info: ", error);
+          });
       })
       .catch((error) => {
         toast.error("Error signing in with Google: " + error.message);
@@ -89,7 +123,7 @@ const SignIn = () => {
 
               <button
                 type="submit"
-                className="btn btn-primary hover:bg-blue-700  font-bold py-2 px-4 rounded"
+                className="btn btn-primary hover:bg-blue-700 font-bold py-2 px-4 rounded"
               >
                 Sign In
               </button>

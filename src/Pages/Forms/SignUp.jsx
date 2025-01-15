@@ -1,42 +1,48 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaLock, FaImage, FaGoogle } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
 import { Fade } from "react-awesome-reveal";
-import axios from "axios";
+import { Link } from "react-router";
+import { Helmet } from "react-helmet";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/sign-up-animate.svg";
-import { Link } from "react-router";
-import { Helmet } from "react-helmet";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
+  const { createUserWithEmailPass, signinWithGoogle } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
+  const [authorization, setAuthorization] = useState("student");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { createUserWithEmailPass, signinWithGoogle } = useContext(AuthContext);
 
   const onSubmit = (data) => {
-    console.log(data);
     createUserWithEmailPass(data.email, data.password)
       .then((res) => {
-        // Successfully signed up
         const user = res.user;
         updateProfile(user, {
           displayName: data.name,
           photoURL: data.photoURL,
         })
           .then(() => {
-            toast.success("Sign up successful!");
             // Save user info to DB
-            axios
-              .post("http://localhost:5000/users", {
+            axiosPublic
+              .post("/users", {
                 displayName: data.name,
                 photoURL: data.photoURL,
                 email: data.email,
+                authorization: authorization,
+                lastSignIn: new Date().toISOString(),
+              })
+              .then(() => {
+                toast.success("Sign up successful!");
+                // navigate user to home
               })
               .catch((error) => {
                 toast.error("Error saving user info: " + error.message);
@@ -53,18 +59,25 @@ const SignUp = () => {
       });
   };
 
+  console.log(authorization);
   const handleGoogleSignIn = () => {
     signinWithGoogle()
       .then((res) => {
-        toast.success("Google sign-in successful!");
-        // Save user info to DB
         const { displayName, photoURL, email } = res.user;
-        console.log(res.user, displayName);
-        axios
-          .post("http://localhost:5000/users", {
+
+        // Save user info to DB
+        axiosPublic
+          .post("/users", {
             displayName,
             photoURL,
             email,
+            authorization: authorization,
+            status: authorization === "teacher" ? "pending" : "approved",
+            lastSignIn: new Date().toISOString(),
+          })
+          .then(() => {
+            toast.success("Google sign-in successful!");
+            // navigate user to home
           })
           .catch((error) => {
             toast.error("Error saving user info: " + error.message);
@@ -72,6 +85,7 @@ const SignUp = () => {
           });
       })
       .catch((error) => {
+        console.log(error);
         toast.error("Error signing in with Google: " + error.message);
       });
   };
@@ -82,7 +96,7 @@ const SignUp = () => {
         <title>Skill Space | Signup</title>
         <meta name="description" content="Signup to skill space" />
       </Helmet>
-      <div className="container overflow-hidden mx-auto  p-4 grid sm:grid-cols-2">
+      <div className="container overflow-hidden mx-auto p-4 grid sm:grid-cols-2">
         <Fade direction="left">
           <div className="sm:pt-10 pb-3">
             <SectionTitle title="Sign Up" subtitle="Create your account" />
@@ -158,6 +172,19 @@ const SignUp = () => {
                 </p>
               )}
 
+              <select
+                id="role"
+                value={authorization}
+                onChange={(e) => {
+                  setAuthorization(e.target.value);
+                }}
+                className="select select-bordered w-full mb-4"
+              >
+                <option disabled>Select Your Role</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+              </select>
+
               <button
                 type="submit"
                 className="bg-blue-500 btn hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -172,6 +199,9 @@ const SignUp = () => {
               <FaGoogle className="h-4 w-4" />
               Sign Up with Google
             </button>
+            <p className="text-red-500 text-center text-xs italic">
+              *For Teachers: Select your role First!
+            </p>
             <div className="flex flex-col items-center mt-4">
               <p>
                 Have an account?

@@ -101,7 +101,7 @@ const RootNavbar = () => {
 
                     <li>
                       <button onClick={signOutUser} className="sm:hidden block">
-                        Logout
+                        Sign Out
                       </button>
                     </li>
                   </ul>
