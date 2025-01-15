@@ -1,17 +1,19 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Banner from "../Components/Banner";
 import PartnersSection from "../Components/PartnerSection";
 
 const Home = () => {
   return (
-    <div>
+    <>
       <Helmet>
         <title>Skill Space | Home</title>
-        <meta name="description" content="home"/>
+        <meta name="description" content="home" />
       </Helmet>
-      <Banner />
-      <PartnersSection />
-    </div>
+      <div>
+        <Banner />
+        <PartnersSection />
+      </div>
+    </>
   );
 };
 

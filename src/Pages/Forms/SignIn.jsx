@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import { Link } from "react-router";
-import { Helmet } from "react-helmet";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/login-animate.svg";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const SignIn = () => {
   const axiosPublic = useAxiosPublic();
@@ -137,7 +137,7 @@ const SignIn = () => {
             </button>
             <div className="flex flex-col items-center mt-4">
               <p>
-                Don&apos;t have an account?
+                Don&apos;t have an account?{" "}
                 <Link to="/signup" className="text-blue-500">
                   Sign Up
                 </Link>

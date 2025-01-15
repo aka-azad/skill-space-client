@@ -16,15 +16,18 @@ const RootNavbar = () => {
       <li>
         <NavLink to={"/all-classes"}>All Classes</NavLink>
       </li>
+    </>
+  );
+  const privateLinks = (
+    <>
       <li>
         <NavLink to={"/teach-on-skill-space"}>Teach on Skill Space</NavLink>
       </li>
     </>
   );
-  const privateLinks = <></>;
 
   return (
-    <div className=" bg-neutral bg-opacity-50 backdrop-blur-lg border-b-2 rounded-b-2xl mb-3 shadow-lg sticky top-0 z-50">
+    <div className=" bg-neutral bg-opacity-50 backdrop-blur-lg border-b-2  mb-3 shadow-lg sticky top-0 z-50">
       <div className="navbar sm:w-10/12 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -96,7 +99,7 @@ const RootNavbar = () => {
                       <Link to={"/create-assignment"}>Create Assignments</Link>
                     </li>
                     <li>
-                      <Link to={"/my-assignments"}>My Assignments</Link>
+                      <Link to={"/dashboard"}>Dashboard</Link>
                     </li>
 
                     <li>

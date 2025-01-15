@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaLock, FaImage, FaGoogle } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
 import { Fade } from "react-awesome-reveal";
 import { Link } from "react-router";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/sign-up-animate.svg";
@@ -14,7 +14,6 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 const SignUp = () => {
   const { createUserWithEmailPass, signinWithGoogle } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
-  const [authorization, setAuthorization] = useState("student");
 
   const {
     register,
@@ -37,7 +36,7 @@ const SignUp = () => {
                 displayName: data.name,
                 photoURL: data.photoURL,
                 email: data.email,
-                authorization: authorization,
+                role: "student",
                 lastSignIn: new Date().toISOString(),
               })
               .then(() => {
@@ -59,7 +58,6 @@ const SignUp = () => {
       });
   };
 
-  console.log(authorization);
   const handleGoogleSignIn = () => {
     signinWithGoogle()
       .then((res) => {
@@ -71,8 +69,7 @@ const SignUp = () => {
             displayName,
             photoURL,
             email,
-            authorization: authorization,
-            status: authorization === "teacher" ? "pending" : "approved",
+            role: "student",
             lastSignIn: new Date().toISOString(),
           })
           .then(() => {
@@ -172,19 +169,6 @@ const SignUp = () => {
                 </p>
               )}
 
-              <select
-                id="role"
-                value={authorization}
-                onChange={(e) => {
-                  setAuthorization(e.target.value);
-                }}
-                className="select select-bordered w-full mb-4"
-              >
-                <option disabled>Select Your Role</option>
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-              </select>
-
               <button
                 type="submit"
                 className="bg-blue-500 btn hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -204,7 +188,7 @@ const SignUp = () => {
             </p>
             <div className="flex flex-col items-center mt-4">
               <p>
-                Have an account?
+                Have an account?{" "}
                 <Link to="/sign-in" className="text-blue-500">
                   Sign in
                 </Link>
