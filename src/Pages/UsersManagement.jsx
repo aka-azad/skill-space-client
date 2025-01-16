@@ -35,7 +35,6 @@ const UsersManagement = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading users: {error.message}</div>;
-
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Users Management</h2>
