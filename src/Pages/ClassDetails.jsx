@@ -19,7 +19,7 @@ const ClassDetails = () => {
   });
 
   const handlePay = () => {
-    navigate(`/payment/${id}`);
+    navigate(`/make-payments/${id}`);
   };
 
   if (isLoading) return <div>Loading...</div>;

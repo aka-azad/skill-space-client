@@ -13,6 +13,10 @@ import TeachersApplications from "../Pages/TeachersApplications";
 import UsersManagement from "../Pages/UsersManagement";
 import AllClasses from "../Pages/AllClasses";
 import ClassDetails from "../Pages/ClassDetails";
+import Payment from "../Pages/Payment";
+import EnrolledClasses from "../Pages/EnrolledClasses";
+import EnrolledClassDetails from "../Pages/EnrolledClassDetails";
+import MyClass from "../Pages/MyClassesForTeachers";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +26,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/all-classes", element: <AllClasses /> },
       { path: "/class-details/:id", element: <ClassDetails /> },
+      { path: "/make-payments/:id", element: <Payment /> },
       { path: "signup", element: <SignUp /> },
       { path: "sign-in", element: <SignIn /> },
       { path: "teach-on-skill-space", element: <ApplyForTeaching /> },
@@ -49,8 +54,20 @@ const router = createBrowserRouter([
         element: <UsersManagement />,
       },
       {
+        path: "my-class",
+        element: <MyClass />,
+      },
+      {
+        path: "enrolled-classes",
+        element: <EnrolledClasses />,
+      },
+      {
         path: "teachers-applications",
         element: <TeachersApplications />,
+      },
+      {
+        path: "class/:id",
+        element: <EnrolledClassDetails />,
       },
     ],
   },
