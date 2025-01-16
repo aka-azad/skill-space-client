@@ -11,6 +11,8 @@ import AdminClassReview from "../Pages/AdminClassReview";
 import Profile from "../Pages/Profile";
 import TeachersApplications from "../Pages/TeachersApplications";
 import UsersManagement from "../Pages/UsersManagement";
+import AllClasses from "../Pages/AllClasses";
+import ClassDetails from "../Pages/ClassDetails";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,8 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/all-classes", element: <AllClasses /> },
+      { path: "/class-details/:id", element: <ClassDetails /> },
       { path: "signup", element: <SignUp /> },
       { path: "sign-in", element: <SignIn /> },
       { path: "teach-on-skill-space", element: <ApplyForTeaching /> },

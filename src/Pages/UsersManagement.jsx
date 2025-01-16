@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import SectionTitle from "../Components/SectionTitle";
 
 const UsersManagement = () => {
   const queryClient = useQueryClient();
@@ -15,7 +16,7 @@ const UsersManagement = () => {
     queryKey: ["users", searchQuery],
     queryFn: () =>
       axiosPublic.get(`/users?query=${searchQuery}`).then((res) => res.data),
-    enabled: searchQuery.length > 0,
+    // enabled: searchQuery.length > 0,
   });
 
   const makeAdminMutation = useMutation({
@@ -39,7 +40,7 @@ const UsersManagement = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Users Management</h2>
+      <SectionTitle title="Users Management" subtitle={'Make anyone admin'} />
       <form onSubmit={handleSearch} className="mb-4">
         <input
           type="text"

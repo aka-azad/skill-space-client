@@ -43,7 +43,6 @@ const AdminClassReview = () => {
   const handleReject = (id) => {
     rejectMutation.mutate(id);
   };
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading classes: {error.message}</div>;
   return (
