@@ -8,6 +8,9 @@ import SignIn from "../Pages/Forms/SignIn";
 import ApplyForTeaching from "../Pages/Forms/ApplyForTeaching";
 import ClassForm from "../Pages/Forms/ClassForm";
 import AdminClassReview from "../Pages/AdminClassReview";
+import Profile from "../Pages/Profile";
+import TeachersApplications from "../Pages/TeachersApplications";
+import UsersManagement from "../Pages/UsersManagement";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +35,18 @@ const router = createBrowserRouter([
       {
         path: "all-classes",
         element: <AdminClassReview />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "users",
+        element: <UsersManagement />,
+      },
+      {
+        path: "teachers-applications",
+        element: <TeachersApplications />,
       },
     ],
   },

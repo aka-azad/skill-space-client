@@ -28,16 +28,19 @@ const Sidebar = () => (
           </NavLink>
         </li>
         <li>
-          <NavLink to="/users" className="block hover:bg-gray-600 p-2 rounded">
+          <NavLink
+            to="/dashboard/users"
+            className="block hover:bg-gray-600 p-2 rounded"
+          >
             Users
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/teacher-requests"
+            to="/dashboard/teachers-applications"
             className="block hover:bg-gray-600 p-2 rounded"
           >
-            Teacher Requests
+            Teachers Applications
           </NavLink>
         </li>
         <li>
@@ -50,10 +53,10 @@ const Sidebar = () => (
         </li>
         <li>
           <NavLink
-            to="/courses"
+            to="/dashboard/profile"
             className="block hover:bg-gray-600 p-2 rounded"
           >
-            My Classes
+            Profile
           </NavLink>
         </li>
         <li>
