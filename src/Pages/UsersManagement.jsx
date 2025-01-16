@@ -15,13 +15,14 @@ const UsersManagement = () => {
     queryKey: ["users", searchQuery],
     queryFn: () =>
       axiosPublic.get(`/users?query=${searchQuery}`).then((res) => res.data),
+    enabled: searchQuery.length > 0,
   });
 
   const makeAdminMutation = useMutation({
     mutationFn: (email) =>
       axiosPublic.put(`/users/${email}`, { authorization: "admin" }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
+      queryClient.invalidateQueries(["users", searchQuery]);
     },
   });
 
@@ -30,60 +31,69 @@ const UsersManagement = () => {
   };
 
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const query = formData.get("searchQuery");
+    setSearchQuery(query);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading users: {error.message}</div>;
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Users Management</h2>
-      <input
-        type="text"
-        placeholder="Search by username or email"
-        value={searchQuery}
-        onChange={handleSearch}
-        className="input input-bordered w-full mb-4"
-      />
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>Make Admin</th>
-            <th>User Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.email}>
-              <td>{user.displayName}</td>
-              <td>{user.email}</td>
-              <td>
-                {user.authorization === "admin" ? (
-                  <button className="btn btn-success" disabled>
-                    Admin
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-success"
-                    onClick={() => handleMakeAdmin(user.email)}
-                  >
-                    Make Admin
-                  </button>
-                )}
-              </td>
-              <td>
-                <img
-                  src={user.photoURL}
-                  alt={user.displayName}
-                  className="w-16 h-16 object-cover rounded"
-                />
-              </td>
+      <form onSubmit={handleSearch} className="mb-4">
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder="Search by username or email"
+          className="input input-bordered w-full"
+        />
+        <button type="submit" className="btn btn-primary mt-2">
+          Search
+        </button>
+      </form>
+      {isLoading && <div>Loading...</div>}
+      {error && <div>Error loading users: {error.message}</div>}
+      {users && (
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>User Email</th>
+              <th>Make Admin</th>
+              <th>User Image</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.email}>
+                <td>{user.displayName}</td>
+                <td>{user.email}</td>
+                <td>
+                  {user.authorization === "admin" ? (
+                    <button className="btn btn-success" disabled>
+                      Admin
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-success"
+                      onClick={() => handleMakeAdmin(user.email)}
+                    >
+                      Make Admin
+                    </button>
+                  )}
+                </td>
+                <td>
+                  <img
+                    src={user.photoURL}
+                    alt={user.displayName}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
