@@ -42,10 +42,10 @@ const Sidebar = () => (
         </li>
         <li>
           <NavLink
-            to="/courses"
+            to="/dashboard/all-classes"
             className="block hover:bg-gray-600 p-2 rounded"
           >
-            Courses
+            All Courses
           </NavLink>
         </li>
         <li>
@@ -61,7 +61,7 @@ const Sidebar = () => (
             to="/dashboard/add-class"
             className="block hover:bg-gray-600 p-2 rounded"
           >
-          add class
+            add class
           </NavLink>
         </li>
       </ul>

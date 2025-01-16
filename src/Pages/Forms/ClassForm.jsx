@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import AuthContext from "../../Context/AuthContext";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
@@ -18,7 +18,7 @@ const ClassForm = () => {
   });
   const queryClient = useQueryClient();
   const axiosPublic = useAxiosPublic();
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   useEffect(() => {
     user &&
@@ -32,7 +32,7 @@ const ClassForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["classes"]);
       queryClient.invalidateQueries(["myClasses"]);
-      navigate("/my-classes");
+      //   navigate("/my-classes");
     },
     onError: (error) => {
       toast.error(`Error adding class: ${error.message}`);
@@ -43,6 +43,8 @@ const ClassForm = () => {
     const classData = {
       ...data,
       status: "pending",
+      name: user?.displayName,
+      email: user?.email,
     };
     mutation.mutate(classData);
   };

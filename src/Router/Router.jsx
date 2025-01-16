@@ -7,6 +7,7 @@ import SignUp from "../Pages/Forms/SignUp";
 import SignIn from "../Pages/Forms/SignIn";
 import ApplyForTeaching from "../Pages/Forms/ApplyForTeaching";
 import ClassForm from "../Pages/Forms/ClassForm";
+import AdminClassReview from "../Pages/AdminClassReview";
 
 const router = createBrowserRouter([
   {
@@ -14,19 +15,23 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/signup", element: <SignUp /> },
-      { path: "/sign-in", element: <SignIn /> },
-      { path: "/teach-on-skill-space", element: <ApplyForTeaching /> },
+      { path: "signup", element: <SignUp /> },
+      { path: "sign-in", element: <SignIn /> },
+      { path: "teach-on-skill-space", element: <ApplyForTeaching /> },
       { path: "*", element: <ErrorPage /> },
     ],
   },
   {
-    path: "/dashboard",
+    path: "dashboard",
     element: <Dashboard />,
     children: [
       {
-        path: "/dashboard/add-class",
+        path: "add-class",
         element: <ClassForm />,
+      },
+      {
+        path: "all-classes",
+        element: <AdminClassReview />,
       },
     ],
   },
