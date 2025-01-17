@@ -95,11 +95,11 @@ const RootNavbar = () => {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow-lg"
                   >
-                    <li>
-                      <Link to={"/create-assignment"}>Create Assignments</Link>
+                    <li className="hover:bg-none">
+                      <p>{user.displayName}</p>
                     </li>
                     <li>
-                      <Link to={"/dashboard"}>Dashboard</Link>
+                      <Link to={"/dashboard/profile"}>Profile</Link>
                     </li>
 
                     <li>
