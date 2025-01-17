@@ -2,12 +2,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-// import Modal from "react-modal";
 import { toast } from "react-toastify";
 import AuthContext from "../Context/AuthContext";
 
 const MyClass = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -21,8 +20,10 @@ const MyClass = () => {
   } = useQuery({
     queryKey: ["myClasses", user?.email],
     queryFn: () =>
-      axiosPublic.get(`/classes/teacher/${user?.email}`).then((res) => res.data),
-    enabled: loading,
+      axiosPublic
+        .get(`/classes/teacher/${user?.email}`)
+        .then((res) => res.data),
+    enabled: !!user?.email,
   });
 
   const updateMutation = useMutation({
@@ -69,10 +70,11 @@ const MyClass = () => {
   };
 
   const handleSeeDetails = (classId) => {
-    navigate(`/dashboard/my-class/${classId}`);
+    navigate(`/dashboard/my-class/details/${classId}`);
   };
 
-  const handleModalSubmit = () => {
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
     updateMutation.mutate(currentClass);
   };
 
@@ -118,7 +120,7 @@ const MyClass = () => {
             </button>
             <button
               className="btn btn-secondary w-full"
-              disabled={classItem.status !== "approved"}
+              disabled={classItem.status !== "accepted"}
               onClick={() => handleSeeDetails(classItem._id)}
             >
               See Details
@@ -127,64 +129,69 @@ const MyClass = () => {
         ))}
       </div>
 
-      {/* <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Update Class"
-        className="modal-content"
-        overlayClassName="modal-overlay"
-      >
-        <h2 className="text-2xl font-bold mb-4">Update Class</h2>
-        {currentClass && (
-          <form onSubmit={handleModalSubmit}>
-            <input
-              type="text"
-              value={currentClass.title}
-              onChange={(e) =>
-                setCurrentClass({ ...currentClass, title: e.target.value })
-              }
-              className="input input-bordered w-full mb-4"
-              placeholder="Title"
-              required
-            />
-            <input
-              type="text"
-              value={currentClass.price}
-              onChange={(e) =>
-                setCurrentClass({ ...currentClass, price: e.target.value })
-              }
-              className="input input-bordered w-full mb-4"
-              placeholder="Price"
-              required
-            />
-            <textarea
-              value={currentClass.description}
-              onChange={(e) =>
-                setCurrentClass({
-                  ...currentClass,
-                  description: e.target.value,
-                })
-              }
-              className="textarea textarea-bordered w-full mb-4"
-              placeholder="Description"
-              required
-            />
-            <input
-              type="text"
-              value={currentClass.image}
-              onChange={(e) =>
-                setCurrentClass({ ...currentClass, image: e.target.value })
-              }
-              className="input input-bordered w-full mb-4"
-              placeholder="Image URL"
-              required
-            />
-            <button type="submit" className="btn btn-primary w-full">
-              Update
-            </button>
-          </form>
-        )}
-      </Modal> */}
+      {modalIsOpen && currentClass && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h2 className="text-2xl font-bold mb-4">Update Class</h2>
+            <form onSubmit={handleModalSubmit}>
+              <input
+                type="text"
+                value={currentClass.title}
+                onChange={(e) =>
+                  setCurrentClass({ ...currentClass, title: e.target.value })
+                }
+                className="input input-bordered w-full mb-4"
+                placeholder="Title"
+                required
+              />
+              <input
+                type="text"
+                value={currentClass.price}
+                onChange={(e) =>
+                  setCurrentClass({ ...currentClass, price: e.target.value })
+                }
+                className="input input-bordered w-full mb-4"
+                placeholder="Price"
+                required
+              />
+              <textarea
+                value={currentClass.description}
+                onChange={(e) =>
+                  setCurrentClass({
+                    ...currentClass,
+                    description: e.target.value,
+                  })
+                }
+                className="textarea textarea-bordered w-full mb-4"
+                placeholder="Description"
+                required
+              />
+              <input
+                type="text"
+                value={currentClass.image}
+                onChange={(e) =>
+                  setCurrentClass({ ...currentClass, image: e.target.value })
+                }
+                className="input input-bordered w-full mb-4"
+                placeholder="Image URL"
+                required
+              />
+              <div className="modal-action">
+                <button type="submit" className="btn btn-primary">
+                  Update
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setModalIsOpen(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
