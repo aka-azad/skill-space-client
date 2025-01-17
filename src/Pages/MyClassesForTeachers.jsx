@@ -31,15 +31,11 @@ const MyClass = () => {
       axiosPublic.put(`/classes/${updatedClass._id}`, updatedClass),
     onSuccess: () => {
       queryClient.invalidateQueries(["myClasses", user.email]);
-      toast.success("Class updated successfully!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.success("Class updated successfully!", {});
       setModalIsOpen(false);
     },
     onError: (error) => {
-      toast.error(`Error updating class: ${error.message}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error(`Error updating class: ${error.message}`, {});
     },
   });
 
@@ -47,14 +43,10 @@ const MyClass = () => {
     mutationFn: (classId) => axiosPublic.delete(`/classes/${classId}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["myClasses", user.email]);
-      toast.success("Class deleted successfully!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.success("Class deleted successfully!", {});
     },
     onError: (error) => {
-      toast.error(`Error deleting class: ${error.message}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error(`Error deleting class: ${error.message}`, {});
     },
   });
 

@@ -1,20 +1,20 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-// import Modal from "react-modal";
-// import ReactStars from "react-rating-stars-component";
 import AuthContext from "../Context/AuthContext";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import ReactStars from "react-rating-stars-component";
 
 const EnrolledClassDetails = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
   const queryClient = useQueryClient();
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
-  // const [evaluationDescription, setEvaluationDescription] = useState("");
-  // const [rating, setRating] = useState(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [assignmentSubmission, setAssignmentSubmission] = useState({});
+  const [evaluationDescription, setEvaluationDescription] = useState("");
 
   const {
     data: assignments,
@@ -23,54 +23,65 @@ const EnrolledClassDetails = () => {
   } = useQuery({
     queryKey: ["assignments", id],
     queryFn: () =>
-      axiosPublic.get(`/assignments/${id}`).then((res) => res.data),
+      axiosPublic.get(`/assignments/class/${id}`).then((res) => res.data),
   });
 
   const submitMutation = useMutation({
-    mutationFn: (assignmentId) =>
+    mutationFn: ({ assignmentId, submissionLink }) =>
       axiosPublic.post(`/assignments/submit`, {
         assignmentId,
+        classId: id,
         userEmail: user.email,
+        submissionLink,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries(["assignments", id]);
-      toast.success("Assignment submitted successfully!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.success("Assignment submitted successfully!");
     },
     onError: (error) => {
-      toast.error(`Error submitting assignment: ${error.message}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error(`Error submitting assignment: ${error.message}`);
     },
   });
 
-  const handleSubmit = (assignmentId) => {
-    submitMutation.mutate(assignmentId);
+  const evaluationMutation = useMutation({
+    mutationFn: () =>
+      axiosPublic.post("/evaluations", {
+        classId: id,
+        userEmail: user.email,
+        description: evaluationDescription,
+        rating,
+        date: new Date().toISOString(),
+      }),
+    onSuccess: () => {
+      toast.success("Evaluation submitted successfully!");
+      setModalIsOpen(false);
+      setEvaluationDescription("");
+    },
+    onError: (error) => {
+      toast.error(`Error submitting evaluation: ${error.message}`);
+    },
+  });
+
+  const handleAssignmentChange = (e, assignmentId) => {
+    setAssignmentSubmission((prev) => ({
+      ...prev,
+      [assignmentId]: e.target.value,
+    }));
   };
 
-  // const handleOpenModal = () => setModalIsOpen(true);
-  // const handleCloseModal = () => setModalIsOpen(false);
-  // const handleSendEvaluation = () => {
-  //   // Save the evaluation data in the database
-  //   axiosPublic
-  //     .post("/evaluations", {
-  //       classId: id,
-  //       userEmail: user.email,
-  //       description: evaluationDescription,
-  //       rating,
-  //       date: new Date().toISOString(),
-  //     })
-  //     .then(() => {
-  //       toast.success("Evaluation submitted successfully!");
-  //       setModalIsOpen(false);
-  //     })
-  //     .catch((error) => {
-  //       toast.error(`Error submitting evaluation: ${error.message}`, {
-  //         position: toast.POSITION.TOP_CENTER,
-  //       });
-  //     });
-  // };
+  const handleAssignmentSubmit = (e, assignmentId) => {
+    e.preventDefault();
+    console.log(assignmentSubmission[assignmentId])
+    submitMutation.mutate({
+      assignmentId,
+      submissionLink: assignmentSubmission[assignmentId],
+    });
+  };
+
+  const handleEvaluationSubmit = (e) => {
+    e.preventDefault();
+    evaluationMutation.mutate();
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading assignments: {error.message}</div>;
@@ -94,63 +105,69 @@ const EnrolledClassDetails = () => {
               <td className="border px-4 py-2">{assignment.description}</td>
               <td className="border px-4 py-2">{assignment.deadline}</td>
               <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  className="input input-bordered w-full"
-                  placeholder="Submission link"
-                />
-                <button
-                  className="btn btn-primary mt-2 w-full"
-                  onClick={() => handleSubmit(assignment._id)}
-                >
-                  Submit
-                </button>
+                <form onSubmit={(e) => handleAssignmentSubmit(e, assignment._id)}>
+                  <input
+                    type="url"
+                  defaultValue={assignmentSubmission[assignment._id] }
+                    onChange={(e) => handleAssignmentChange(e, assignment._id)}
+                    className="input input-bordered w-full"
+                    placeholder="Submission link"
+                    required
+                  />
+                  <button className="btn btn-primary mt-2 w-full" type="submit">
+                    Submit
+                  </button>
+                </form>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className="btn btn-secondary mt-4" onClick={"handleOpenModal"}>
+      <button
+        className="btn btn-secondary mt-4"
+        onClick={() => setModalIsOpen(true)}
+      >
         Create Teaching Evaluation Report (TER)
       </button>
 
-      {/* <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={handleCloseModal}
-        contentLabel="Teaching Evaluation Report"
-        className="modal-content"
-        overlayClassName="modal-overlay"
-      >
-        <h2 className="text-2xl font-bold mb-4">
-          Teaching Evaluation Report (TER)
-        </h2>
-        <textarea
-          value={evaluationDescription}
-          onChange={(e) => setEvaluationDescription(e.target.value)}
-          className="textarea textarea-bordered w-full mb-4"
-          placeholder="Description"
-        />
-        <div className="mb-4">
-          <ReactStars
-            count={5}
-            onChange={(newRating) => setRating(newRating)}
-            size={24}
-            activeColor="#ffd700"
-          />
+      {modalIsOpen && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h2 className="text-2xl font-bold mb-4">
+              Teaching Evaluation Report (TER)
+            </h2>
+            <form onSubmit={handleEvaluationSubmit}>
+              <textarea
+                value={evaluationDescription}
+                onChange={(e) => setEvaluationDescription(e.target.value)}
+                className="textarea textarea-bordered w-full mb-4"
+                placeholder="Description"
+                required
+              />
+              <div className="mb-4">
+                <ReactStars
+                  count={5}
+                  onChange={(newRating) => setRating(newRating)}
+                  size={24}
+                  activeColor="#ffd700"
+                />
+              </div>
+              <div className="modal-action ">
+                <button className="btn btn-primary" type="submit">
+                  Send
+                </button>
+                <button
+                  className="btn"
+                  type="button"
+                  onClick={() => setModalIsOpen(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        <button
-          className="btn btn-primary w-full"
-          onClick={handleSendEvaluation}
-        >
-          Send
-        </button>
-        <button
-          className="btn btn-secondary w-full mt-2"
-          onClick={handleCloseModal}
-        >
-          Close
-        </button>
-      </Modal> */}
+      )}
     </div>
   );
 };

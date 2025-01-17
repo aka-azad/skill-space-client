@@ -71,7 +71,7 @@ const router = createBrowserRouter([
         element: <TeachersApplications />,
       },
       {
-        path: "class/:id",
+        path: "class/:id", //for students
         element: <EnrolledClassDetails />,
       },
     ],

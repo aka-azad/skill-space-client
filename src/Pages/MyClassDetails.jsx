@@ -51,9 +51,7 @@ const MyClassDetails = () => {
       setModalIsOpen(false);
     },
     onError: (error) => {
-      toast.error(`Error creating assignment: ${error.message}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error(`Error creating assignment: ${error.message}`);
     },
   });
 
