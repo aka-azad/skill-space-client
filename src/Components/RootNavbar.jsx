@@ -3,6 +3,7 @@ import AuthContext from "../Context/AuthContext";
 import { Link, NavLink, useLocation } from "react-router";
 import ThemeToggler from "./ThemeToggler";
 import logo from "../assets/logo-big.png";
+import SmallLottieLoader from "./SmallLottieLoader";
 
 const RootNavbar = () => {
   const { user, signOutUser, loading } = useContext(AuthContext);
@@ -56,7 +57,7 @@ const RootNavbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               {links}
-              {user && privateLinks}
+              {user && user?.role == "student" && privateLinks}
             </ul>
           </div>
           <button className="btn btn-ghost text-xl  font-bold hover:bg-neutral bg-accent bg-opacity-90 text-base-content">
@@ -68,13 +69,15 @@ const RootNavbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             {links}
-            {user && privateLinks}
+            {user && user?.role == "student" && privateLinks}
           </ul>
         </div>
         <div className="navbar-end">
           <ThemeToggler />
           {loading ? (
-            <>Loading</>
+            <>
+              <SmallLottieLoader />
+            </>
           ) : user ? (
             <>
               <div
@@ -114,7 +117,7 @@ const RootNavbar = () => {
                 onClick={signOutUser}
                 className="btn ml-3 btn-outline border-2 text-base text-white hidden sm:block"
               >
-                Log Out
+                Sign Out
               </button>
             </>
           ) : location.pathname === "/sign-in" ? (

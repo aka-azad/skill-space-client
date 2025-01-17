@@ -19,6 +19,8 @@ import EnrolledClassDetails from "../Pages/EnrolledClassDetails";
 import MyClass from "../Pages/MyClassesForTeachers";
 import MyClassDetails from "../Pages/MyClassDetails";
 import ClassProgress from "../Pages/ClassProgress";
+import PrivateRoute from "./PrivateRoute";
+import RedirectHomeRoute from "./RedirectHomeRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,15 +31,40 @@ const router = createBrowserRouter([
       { path: "/all-classes", element: <AllClasses /> },
       { path: "/class-details/:id", element: <ClassDetails /> },
       { path: "/make-payments/:id", element: <Payment /> },
-      { path: "signup", element: <SignUp /> },
-      { path: "sign-in", element: <SignIn /> },
-      { path: "teach-on-skill-space", element: <ApplyForTeaching /> },
+      {
+        path: "signup",
+        element: (
+          <RedirectHomeRoute>
+            <SignUp />
+          </RedirectHomeRoute>
+        ),
+      },
+      {
+        path: "sign-in",
+        element: (
+          <RedirectHomeRoute>
+            <SignIn />
+          </RedirectHomeRoute>
+        ),
+      },
+      {
+        path: "teach-on-skill-space",
+        element: (
+          <PrivateRoute>
+            <ApplyForTeaching />
+          </PrivateRoute>
+        ),
+      },
       { path: "*", element: <ErrorPage /> },
     ],
   },
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "add-class",
@@ -79,6 +106,7 @@ const router = createBrowserRouter([
         path: "class-progress/:id",
         element: <ClassProgress />,
       },
+      { path: "*", element: <ErrorPage /> },
     ],
   },
 ]);
