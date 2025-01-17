@@ -1,11 +1,26 @@
 import { NavLink, Outlet } from "react-router";
 import { FaBars } from "react-icons/fa";
 import logo from "../assets/logo-big.png";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import AuthContext from "../Context/AuthContext";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Dashboard = () => {
-  const { signOutUser } = useContext(AuthContext);
+  const { signOutUser, user } = useContext(AuthContext);
+  const axiosPublic = useAxiosPublic();
+  const [userInfo, setUserInfo] = useState("");
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const response = await axiosPublic.get(`/users/${user.email}`);
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+      }
+    };
+    fetchUserRole();
+  }, [user.email, axiosPublic]);
 
   const linksForAdmin = (
     <>
@@ -41,7 +56,6 @@ const Dashboard = () => {
           Enrolled Classes
         </NavLink>
       </li>
-
       <li>
         <NavLink
           to="/dashboard/add-class"
@@ -60,6 +74,7 @@ const Dashboard = () => {
       </li>
     </>
   );
+
   const linksForStudent = (
     <>
       <li>
@@ -72,6 +87,7 @@ const Dashboard = () => {
       </li>
     </>
   );
+
   const linksForTeacher = (
     <>
       <li>
@@ -100,16 +116,30 @@ const Dashboard = () => {
       </li>
     </>
   );
+
+  const renderLinks = () => {
+    if (userInfo.authorization == "admin") {
+      return linksForAdmin;
+    }
+    if (userInfo.authorization !== "admin") {
+      if (userInfo.role == "student") {
+        return linksForStudent;
+      }
+      if (userInfo.role == "teacher") {
+        return linksForTeacher;
+      }
+    }
+  };
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
-        <div className=" text-xl flex justify-between items-center  font-bold hover:bg-neutral bg-accent bg-opacity-90 text-base-content">
+        <div className="text-xl flex justify-between items-center font-bold hover:bg-neutral bg-accent bg-opacity-90 text-base-content">
           <div className="flex items-center my-2">
-            <img className="h-7 w-7 mr-2 ml-6" src={logo} />
+            <img className="h-7 w-7 mr-2 ml-6" src={logo} alt="Logo" />
             <p>
-              Skill
-              <span className=""> Space</span>
+              Skill<span className=""> Space</span>
             </p>
           </div>
           <label
@@ -132,7 +162,7 @@ const Dashboard = () => {
               Home
             </NavLink>
           </li>
-          {linksForAdmin}
+          {renderLinks()}
           <li>
             <NavLink
               to="/dashboard/profile"
@@ -141,7 +171,6 @@ const Dashboard = () => {
               Profile
             </NavLink>
           </li>
-
           <li>
             <button
               onClick={signOutUser}
@@ -151,7 +180,7 @@ const Dashboard = () => {
             </button>
           </li>
         </ul>
-      </div>{" "}
+      </div>
     </div>
   );
 };

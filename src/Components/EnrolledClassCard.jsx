@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router";
 
-const EnrolledClassCard = ({ classItem, handleContinue }) => {
+const EnrolledClassCard = ({ classItem }) => {
   return (
     <div>
       <div className="bg-white p-4 shadow rounded">
@@ -27,7 +27,6 @@ const EnrolledClassCard = ({ classItem, handleContinue }) => {
 
 EnrolledClassCard.propTypes = {
   classItem: PropTypes.object.isRequired,
-  handleContinue: PropTypes.func.isRequired,
 };
 
 export default EnrolledClassCard;

@@ -18,6 +18,7 @@ import EnrolledClasses from "../Pages/EnrolledClasses";
 import EnrolledClassDetails from "../Pages/EnrolledClassDetails";
 import MyClass from "../Pages/MyClassesForTeachers";
 import MyClassDetails from "../Pages/MyClassDetails";
+import ClassProgress from "../Pages/ClassProgress";
 
 const router = createBrowserRouter([
   {
@@ -71,8 +72,12 @@ const router = createBrowserRouter([
         element: <TeachersApplications />,
       },
       {
-        path: "class/:id", //for students
+        path: "class/:id",
         element: <EnrolledClassDetails />,
+      },
+      {
+        path: "class-progress/:id",
+        element: <ClassProgress />,
       },
     ],
   },

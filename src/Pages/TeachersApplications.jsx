@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import SectionTitle from "../Components/SectionTitle";
 
 const TeachersApplications = () => {
   const queryClient = useQueryClient();
@@ -49,7 +50,10 @@ const TeachersApplications = () => {
   if (error) return <div>Error loading teacher requests: {error.message}</div>;
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Teacher Requests</h2>
+      <SectionTitle
+        title="Teachers Applications"
+        subtitle={"Approve if it meets requirements"}
+      />
       <table className="table w-full overflow-auto">
         <thead>
           <tr>

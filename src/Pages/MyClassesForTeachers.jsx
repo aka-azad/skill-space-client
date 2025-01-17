@@ -3,6 +3,7 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2"; 
 import AuthContext from "../Context/AuthContext";
 
 const MyClass = () => {
@@ -31,11 +32,11 @@ const MyClass = () => {
       axiosPublic.put(`/classes/${updatedClass._id}`, updatedClass),
     onSuccess: () => {
       queryClient.invalidateQueries(["myClasses", user.email]);
-      toast.success("Class updated successfully!", {});
+      toast.success("Class updated successfully!");
       setModalIsOpen(false);
     },
     onError: (error) => {
-      toast.error(`Error updating class: ${error.message}`, {});
+      toast.error(`Error updating class: ${error.message}`);
     },
   });
 
@@ -43,10 +44,10 @@ const MyClass = () => {
     mutationFn: (classId) => axiosPublic.delete(`/classes/${classId}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["myClasses", user.email]);
-      toast.success("Class deleted successfully!", {});
+      toast.success("Class deleted successfully!");
     },
     onError: (error) => {
-      toast.error(`Error deleting class: ${error.message}`, {});
+      toast.error(`Error deleting class: ${error.message}`);
     },
   });
 
@@ -56,9 +57,19 @@ const MyClass = () => {
   };
 
   const handleDelete = (classId) => {
-    if (window.confirm("Are you sure you want to delete this class?")) {
-      deleteMutation.mutate(classId);
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMutation.mutate(classId);
+      }
+    });
   };
 
   const handleSeeDetails = (classId) => {

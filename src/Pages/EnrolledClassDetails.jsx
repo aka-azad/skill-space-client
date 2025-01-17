@@ -48,6 +48,8 @@ const EnrolledClassDetails = () => {
       axiosPublic.post("/evaluations", {
         classId: id,
         userEmail: user.email,
+        userName: user.displayName,
+        userImage: user.photoURL,
         description: evaluationDescription,
         rating,
         date: new Date().toISOString(),
@@ -71,7 +73,7 @@ const EnrolledClassDetails = () => {
 
   const handleAssignmentSubmit = (e, assignmentId) => {
     e.preventDefault();
-    console.log(assignmentSubmission[assignmentId])
+    console.log(assignmentSubmission[assignmentId]);
     submitMutation.mutate({
       assignmentId,
       submissionLink: assignmentSubmission[assignmentId],
@@ -105,10 +107,12 @@ const EnrolledClassDetails = () => {
               <td className="border px-4 py-2">{assignment.description}</td>
               <td className="border px-4 py-2">{assignment.deadline}</td>
               <td className="border px-4 py-2">
-                <form onSubmit={(e) => handleAssignmentSubmit(e, assignment._id)}>
+                <form
+                  onSubmit={(e) => handleAssignmentSubmit(e, assignment._id)}
+                >
                   <input
                     type="url"
-                  defaultValue={assignmentSubmission[assignment._id] }
+                    defaultValue={assignmentSubmission[assignment._id]}
                     onChange={(e) => handleAssignmentChange(e, assignment._id)}
                     className="input input-bordered w-full"
                     placeholder="Submission link"

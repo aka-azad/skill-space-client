@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import { Link } from "react-router";
+import SectionTitle from "../Components/SectionTitle";
 
 const AdminClassReview = () => {
   const queryClient = useQueryClient();
@@ -47,7 +49,10 @@ const AdminClassReview = () => {
   if (error) return <div>Error loading classes: {error.message}</div>;
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Class Review</h2>
+      <SectionTitle
+        title="Class Review"
+        subtitle={"Approve if it meets requirements"}
+      />
       <table className="table w-full">
         <thead>
           <tr>
@@ -104,12 +109,13 @@ const AdminClassReview = () => {
                 )}
               </td>
               <td>
-                <button
+                <Link
+                  to={`/dashboard/class-progress/${classItem._id}`}
                   className="btn btn-primary"
                   disabled={classItem.status !== "accepted"}
                 >
                   Progress
-                </button>
+                </Link>
               </td>
             </tr>
           ))}
