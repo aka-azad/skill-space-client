@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SectionTitle from "../Components/SectionTitle";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import LottieLoader from "../Components/LottieLoader";
 
 const UsersManagement = () => {
   const queryClient = useQueryClient();
@@ -57,7 +58,7 @@ const UsersManagement = () => {
           Search
         </button>
       </form>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LottieLoader />}
       {error && <div>Error loading users: {error.message}</div>}
       <div className="w-full overflow-auto mb-20">
         {usersData && (

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import AuthContext from "../Context/AuthContext";
 import ReactStars from "react-rating-stars-component";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import LottieLoader from "../Components/LottieLoader";
 
 const EnrolledClassDetails = () => {
   const { user } = useContext(AuthContext);
@@ -85,48 +86,61 @@ const EnrolledClassDetails = () => {
     evaluationMutation.mutate();
   };
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading assignments: {error.message}</div>;
 
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Assignments for this Course</h2>
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">Title</th>
-            <th className="px-4 py-2">Description</th>
-            <th className="px-4 py-2">Deadline</th>
-            <th className="px-4 py-2">Submit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assignments.map((assignment) => (
-            <tr key={assignment._id}>
-              <td className="border px-4 py-2">{assignment.title}</td>
-              <td className="border px-4 py-2">{assignment.description}</td>
-              <td className="border px-4 py-2">{assignment.deadline}</td>
-              <td className="border px-4 py-2">
-                <form
-                  onSubmit={(e) => handleAssignmentSubmit(e, assignment._id)}
-                >
-                  <input
-                    type="url"
-                    defaultValue={assignmentSubmission[assignment._id]}
-                    onChange={(e) => handleAssignmentChange(e, assignment._id)}
-                    className="input input-bordered w-full"
-                    placeholder="Submission link"
-                    required
-                  />
-                  <button className="btn btn-primary mt-2 w-full" type="submit">
-                    Submit
-                  </button>
-                </form>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {isLoading ? (
+        <LottieLoader />
+      ) : (
+        <div className="w-full overflow-auto">
+          <table className="table-auto w-full">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">Title</th>
+                <th className="px-4 py-2">Description</th>
+                <th className="px-4 py-2">Deadline</th>
+                <th className="px-4 py-2">Submit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {assignments.map((assignment) => (
+                <tr key={assignment._id}>
+                  <td className="border px-4 py-2">{assignment.title}</td>
+                  <td className="border px-4 py-2">{assignment.description}</td>
+                  <td className="border px-4 py-2">{assignment.deadline}</td>
+                  <td className="border px-4 py-2">
+                    <form
+                      onSubmit={(e) =>
+                        handleAssignmentSubmit(e, assignment._id)
+                      }
+                    >
+                      <input
+                        type="url"
+                        defaultValue={assignmentSubmission[assignment._id]}
+                        onChange={(e) =>
+                          handleAssignmentChange(e, assignment._id)
+                        }
+                        className="input input-bordered w-full"
+                        placeholder="Submission link"
+                        required
+                      />
+                      <button
+                        className="btn btn-primary mt-2 w-full"
+                        type="submit"
+                      >
+                        Submit
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <button
         className="btn btn-secondary mt-4"
         onClick={() => setModalIsOpen(true)}

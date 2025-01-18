@@ -7,6 +7,7 @@ import AuthContext from "../Context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import LottieLoader from "../Components/LottieLoader";
 
 const Payment = () => {
   const { id } = useParams();
@@ -46,20 +47,25 @@ const Payment = () => {
     mutation.mutate();
   };
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading class details: {error.message}</div>;
 
   return (
     <div className="container max-w-screen-md mx-auto p-4">
-      <SectionTitle title={`Payment for ${classItem.title}`} />
-      <p className=" mb-4">Price: ${classItem.price}</p>
-      <button
-        className="btn btn-primary w-full"
-        onClick={handlePayment}
-        disabled={mutation.isLoading}
-      >
-        {mutation.isLoading ? "Processing..." : "Pay Now"}
-      </button>
+      {isLoading ? (
+        <LottieLoader />
+      ) : (
+        <>
+          <SectionTitle title={`Payment for ${classItem.title}`} />
+          <p className=" mb-4">Price: ${classItem.price}</p>
+          <button
+            className="btn btn-primary w-full"
+            onClick={handlePayment}
+            disabled={mutation.isLoading}
+          >
+            {mutation.isLoading ? "Processing..." : "Pay Now"}
+          </button>
+        </>
+      )}
     </div>
   );
 };

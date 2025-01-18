@@ -15,7 +15,7 @@ const Dashboard = () => {
           to="/dashboard/users"
           className="block hover:bg-gray-600 p-2 rounded"
         >
-          Users
+          User Management
         </NavLink>
       </li>
       <li>
@@ -126,7 +126,7 @@ const Dashboard = () => {
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-          <div className="text-xl h-16 fixed top-0 right-0 w-full z-[1000] flex justify-between items-center font-bold hover:bg-neutral bg-accent bg-opacity-70 backdrop-blur-md text-base-content">
+          <div className="text-xl h-16 fixed top-0 right-0 w-full z-[1000] flex justify-between items-center font-bold  bg-accent bg-opacity-70 backdrop-blur-md text-base-content">
             <div className="flex  items-center my-2">
               <img className="h-7 w-7 mr-2 ml-6" src={logo} alt="Logo" />
               <p>
