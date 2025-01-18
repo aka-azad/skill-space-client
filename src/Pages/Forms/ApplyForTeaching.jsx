@@ -5,6 +5,7 @@ import AuthContext from "../../Context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import SectionTitle from "../../Components/SectionTitle";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import LottieLoader from "../../Components/LottieLoader";
 
 const ApplyForTeaching = () => {
   const { user, loading } = useContext(AuthContext);
@@ -51,7 +52,7 @@ const ApplyForTeaching = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><LottieLoader/></div>;
   }
 
   return (

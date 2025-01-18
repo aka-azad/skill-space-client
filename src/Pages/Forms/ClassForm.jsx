@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import AuthContext from "../../Context/AuthContext";
 import { useNavigate } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import SectionTitle from "../../Components/SectionTitle";
 
 const ClassForm = () => {
   const { user } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const ClassForm = () => {
   });
   const queryClient = useQueryClient();
   const axiosSecure = useAxiosSecure();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     user &&
@@ -32,7 +33,7 @@ const ClassForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["classes"]);
       queryClient.invalidateQueries(["myClasses"]);
-        navigate("/my-classes");
+      navigate("/my-classes");
     },
     onError: (error) => {
       toast.error(`Error adding class: ${error.message}`);
@@ -51,7 +52,10 @@ const ClassForm = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Add a Class</h2>
+      <SectionTitle
+        title="Add A Class"
+        subtitle={"And Wait For Admin Approval"}
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-md mx-auto space-y-4"

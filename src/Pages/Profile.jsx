@@ -10,7 +10,7 @@ const Profile = () => {
       {user && (
         <SectionTitle title={user?.displayName} subtitle={"Welcome Back"} />
       )}
-      <div className="bg-white p-4 shadow rounded flex flex-col items-center">
+      <div className="bg-primary bg-opacity-15 text-base p-4 shadow rounded flex flex-col items-center">
         <img
           src={user?.photoURL}
           alt="user"
@@ -19,18 +19,18 @@ const Profile = () => {
         <h3 className="text-xl font-bold mb-2">
           {user?.displayName || "user Name"}
         </h3>
-        <p className="text-gray-600 mb-2">
+        <p className=" mb-2">
           <strong>Role:</strong> {user?.role || "Student"}
         </p>
         {user?.authorization === "admin" && (
-          <p className="text-gray-600 mb-2">
+          <p className=" mb-2">
             <strong>Authorization: </strong> Admin
           </p>
         )}
-        <p className="text-gray-600 mb-2">
+        <p className=" mb-2">
           <strong>Email:</strong> {user?.email || "Email"}
         </p>
-        <p className="text-gray-600 mb-2">
+        <p className=" mb-2">
           <strong>Phone:</strong> {user?.phone || "Not Available"}
         </p>
       </div>

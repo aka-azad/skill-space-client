@@ -80,19 +80,19 @@ const MyClassDetails = () => {
         {classInfo.title} - Class Progress
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 shadow rounded">
+        <div className=" p-4 shadow rounded">
           <h3 className="text-xl font-bold mb-2">Total Enrollment</h3>
-          <p className="text-gray-600">{classInfo.totalEnrolment}</p>
+          <p className="">{classInfo.totalEnrolment}</p>
         </div>
-        <div className="bg-white p-4 shadow rounded">
+        <div className=" p-4 shadow rounded">
           <h3 className="text-xl font-bold mb-2">Total Assignments</h3>
-          <p className="text-gray-600">{assignments.length}</p>
+          <p className="">{assignments.length}</p>
         </div>
-        <div className="bg-white p-4 shadow rounded">
+        <div className=" p-4 shadow rounded">
           <h3 className="text-xl font-bold mb-2">
             Total Assignment Submissions
           </h3>
-          <p className="text-gray-600">{submissionCount.count}</p>
+          <p className="">{submissionCount.count}</p>
         </div>
       </div>
 

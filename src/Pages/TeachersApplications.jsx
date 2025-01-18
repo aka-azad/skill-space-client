@@ -9,14 +9,16 @@ const TeachersApplications = () => {
 
   const [approvedRequests, setApprovedRequests] = useState({});
   const [rejectedRequests, setRejectedRequests] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
-    data: applications,
+    data: applicationsData,
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["teacherApplications"],
-    queryFn: () => axiosSecure.get("/teachers").then((res) => res.data),
+    queryKey: ["teacherApplications", currentPage],
+    queryFn: () => axiosSecure.get(`/teachers?page=${currentPage}&limit=10`).then((res) => res.data),
+    keepPreviousData: true,
   });
 
   const approveMutation = useMutation({
@@ -25,7 +27,7 @@ const TeachersApplications = () => {
     onSuccess: (data, variables) => {
       axiosSecure.put(`/teachers-profile/${variables}`, { role: "teacher" });
       setApprovedRequests((prev) => ({ ...prev, [variables]: true }));
-      queryClient.invalidateQueries(["teacherApplications"]);
+      queryClient.invalidateQueries(["teacherApplications", currentPage]);
     },
   });
 
@@ -34,7 +36,7 @@ const TeachersApplications = () => {
       axiosSecure.put(`/teachers/${id}`, { status: "rejected" }),
     onSuccess: (data, variables) => {
       setRejectedRequests((prev) => ({ ...prev, [variables]: true }));
-      queryClient.invalidateQueries(["teacherApplications"]);
+      queryClient.invalidateQueries(["teacherApplications", currentPage]);
     },
   });
 
@@ -46,15 +48,18 @@ const TeachersApplications = () => {
     rejectMutation.mutate(id);
   };
 
+  const totalPages = applicationsData ? Math.ceil(applicationsData.totalTeachers / 10) : 1;
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading teacher requests: {error.message}</div>;
+
   return (
     <div className="container mx-auto p-4">
       <SectionTitle
         title="Teachers Applications"
         subtitle={"Approve if it meets requirements"}
       />
-      <div className="w-full overflow-auto">
+      <div className="w-full overflow-auto mb-20">
         <table className="table w-full">
           <thead>
             <tr>
@@ -69,7 +74,7 @@ const TeachersApplications = () => {
             </tr>
           </thead>
           <tbody>
-            {applications.map((request) => (
+            {applicationsData.teachers.map((request) => (
               <tr key={request._id}>
                 <td>{request.name}</td>
                 <td>
@@ -120,6 +125,27 @@ const TeachersApplications = () => {
             ))}
           </tbody>
         </table>
+        {applicationsData && (
+          <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
+            <div>
+              Total Applications: {applicationsData ? applicationsData.totalTeachers : 0} | Displaying:{" "}
+              {applicationsData ? applicationsData.teachers.length : 0} applications
+            </div>
+            <div className="join">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`join-item btn ${
+                    index + 1 === currentPage ? "btn-active" : ""
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

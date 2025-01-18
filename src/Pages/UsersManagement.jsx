@@ -7,23 +7,26 @@ const UsersManagement = () => {
   const queryClient = useQueryClient();
   const axiosSecure = useAxiosSecure();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
-    data: users,
+    data: usersData,
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["users", searchQuery],
+    queryKey: ["users", searchQuery, currentPage],
     queryFn: () =>
-      axiosSecure.get(`/users?query=${searchQuery}`).then((res) => res.data),
-    // enabled: searchQuery.length > 0,
+      axiosSecure
+        .get(`/users?query=${searchQuery}&page=${currentPage}&limit=10`)
+        .then((res) => res.data),
+    keepPreviousData: true,
   });
 
   const makeAdminMutation = useMutation({
     mutationFn: (email) =>
       axiosSecure.put(`/users/${email}`, { authorization: "admin" }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["users", searchQuery]);
+      queryClient.invalidateQueries(["users", searchQuery, currentPage]);
     },
   });
 
@@ -38,9 +41,11 @@ const UsersManagement = () => {
     setSearchQuery(query);
   };
 
+  const totalPages = usersData ? Math.ceil(usersData.totalUsers / 10) : 1;
+
   return (
     <div className="container mx-auto p-4">
-      <SectionTitle title="Users Management" subtitle={'Make anyone admin'} />
+      <SectionTitle title="Users Management" subtitle={"Make anyone admin"} />
       <form onSubmit={handleSearch} className="mb-4">
         <input
           type="text"
@@ -54,48 +59,69 @@ const UsersManagement = () => {
       </form>
       {isLoading && <div>Loading...</div>}
       {error && <div>Error loading users: {error.message}</div>}
-    <div className="w-full overflow-auto">
-      {users && (
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>User Name</th>
-              <th>User Email</th>
-              <th>Make Admin</th>
-              <th>User Image</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.email}>
-                <td>{user.displayName}</td>
-                <td>{user.email}</td>
-                <td>
-                  {user.authorization === "admin" ? (
-                    <button className="btn btn-success" disabled>
-                      Admin
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-success"
-                      onClick={() => handleMakeAdmin(user.email)}
-                    >
-                      Make Admin
-                    </button>
-                  )}
-                </td>
-                <td>
-                  <img
-                    src={user.photoURL}
-                    alt={user.displayName}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                </td>
+      <div className="w-full overflow-auto mb-20">
+        {usersData && (
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>User Email</th>
+                <th>Make Admin</th>
+                <th>User Image</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {usersData.users.map((user) => (
+                <tr key={user.email}>
+                  <td>{user.displayName}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    {user.authorization === "admin" ? (
+                      <button className="btn btn-success" disabled>
+                        Admin
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-success"
+                        onClick={() => handleMakeAdmin(user.email)}
+                      >
+                        Make Admin
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        {usersData && (
+          <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
+            <div>
+              Total Users: {usersData ? usersData.totalUsers : 0} | Displaying:{" "}
+              {usersData ? usersData.users.length : 0} users
+            </div>
+            <div className="join">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`join-item btn ${
+                    index + 1 === currentPage ? "btn-active" : ""
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
