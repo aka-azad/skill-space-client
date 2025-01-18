@@ -101,28 +101,28 @@ const UsersManagement = () => {
             </tbody>
           </table>
         )}
-        {usersData && (
-          <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
-            <div>
-              Total Users: {usersData ? usersData.totalUsers : 0} | Displaying:{" "}
-              {usersData ? usersData.users.length : 0} users
-            </div>
-            <div className="join">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index + 1}
-                  className={`join-item btn ${
-                    index + 1 === currentPage ? "btn-active" : ""
-                  }`}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
+      {usersData && (
+        <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
+          <div>
+            Total Users: {usersData ? usersData.totalUsers : 0} | Displaying:{" "}
+            {usersData ? usersData.users.length : 0} users
+          </div>
+          <div className="join">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`join-item btn ${
+                  index + 1 === currentPage ? "btn-active" : ""
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

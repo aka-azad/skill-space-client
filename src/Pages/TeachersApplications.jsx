@@ -17,7 +17,10 @@ const TeachersApplications = () => {
     isLoading,
   } = useQuery({
     queryKey: ["teacherApplications", currentPage],
-    queryFn: () => axiosSecure.get(`/teachers?page=${currentPage}&limit=10`).then((res) => res.data),
+    queryFn: () =>
+      axiosSecure
+        .get(`/teachers?page=${currentPage}&limit=10`)
+        .then((res) => res.data),
     keepPreviousData: true,
   });
 
@@ -48,7 +51,9 @@ const TeachersApplications = () => {
     rejectMutation.mutate(id);
   };
 
-  const totalPages = applicationsData ? Math.ceil(applicationsData.totalTeachers / 10) : 1;
+  const totalPages = applicationsData
+    ? Math.ceil(applicationsData.totalTeachers / 10)
+    : 1;
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading teacher requests: {error.message}</div>;
@@ -125,28 +130,31 @@ const TeachersApplications = () => {
             ))}
           </tbody>
         </table>
-        {applicationsData && (
-          <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
-            <div>
-              Total Applications: {applicationsData ? applicationsData.totalTeachers : 0} | Displaying:{" "}
-              {applicationsData ? applicationsData.teachers.length : 0} applications
-            </div>
-            <div className="join">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index + 1}
-                  className={`join-item btn ${
-                    index + 1 === currentPage ? "btn-active" : ""
-                  }`}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
+      {applicationsData && (
+        <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
+          <div>
+            Total Applications:{" "}
+            {applicationsData ? applicationsData.totalTeachers : 0} |
+            Displaying:{" "}
+            {applicationsData ? applicationsData.teachers.length : 0}{" "}
+            applications
+          </div>
+          <div className="join">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`join-item btn ${
+                  index + 1 === currentPage ? "btn-active" : ""
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
