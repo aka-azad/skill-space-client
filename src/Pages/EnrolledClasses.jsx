@@ -39,6 +39,7 @@ const EnrolledClasses = () => {
         <NoDataPage
           pageTitle="You Didn't Enroll To Any Class"
           message="Look For Your Knowledge booster from All Classes"
+          from={"enrolled-classes"}
         />
       )}
       {!isLoading && (

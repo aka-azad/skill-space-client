@@ -126,8 +126,8 @@ const Dashboard = () => {
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-          <div className="text-xl flex justify-between items-center font-bold hover:bg-neutral bg-accent bg-opacity-90 text-base-content">
-            <div className="flex items-center my-2">
+          <div className="text-xl h-16 fixed top-0 right-0 w-full z-[1000] flex justify-between items-center font-bold hover:bg-neutral bg-accent bg-opacity-70 backdrop-blur-md text-base-content">
+            <div className="flex  items-center my-2">
               <img className="h-7 w-7 mr-2 ml-6" src={logo} alt="Logo" />
               <p>
                 Skill<span className=""> Space</span>
@@ -146,16 +146,16 @@ const Dashboard = () => {
               <FaBars />
             </label>
           </div>
-          <div className="flex-1 p-4 w-full">
+          <div className="flex-1 pt-16 p-4 w-full">
             <Outlet />
           </div>
         </div>
         <div className="drawer-side">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+          <ul className="menu bg-base-200 pt-16 text-base-content min-h-full w-80 p-4">
             <li>
-              <NavLink to="/" className="block hover:bg-gray-600 p-2 rounded">
-                Home
+              <NavLink to="/" className="block text-black font-bold hover:bg-gray-600 p-2 rounded">
+               Back To Home
               </NavLink>
             </li>
             <li>

@@ -88,7 +88,10 @@ const MyClass = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <SectionTitle title="My Classes" subtitle={'All Of Your Published Courses Are Here'}/>
+      <SectionTitle
+        title="My Classes"
+        subtitle={"All Of Your Published Courses Are Here"}
+      />
       {isLoading && (
         <>
           <LottieLoader />
@@ -96,8 +99,9 @@ const MyClass = () => {
       )}
       {!isLoading && myClasses.length == 0 && (
         <NoDataPage
-          pageTitle="My Classes"
-          message="You didn't published any Class"
+          pageTitle="You Didn't Add Any Course"
+          message="Click below button to add a course"
+          from={"my-classes"}
         />
       )}
       {!isLoading && myClasses.length > 0 && (
