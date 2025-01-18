@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 import SectionTitle from "../Components/SectionTitle";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const TeachersApplications = () => {
   const queryClient = useQueryClient();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const [approvedRequests, setApprovedRequests] = useState({});
   const [rejectedRequests, setRejectedRequests] = useState({});
@@ -16,14 +16,14 @@ const TeachersApplications = () => {
     isLoading,
   } = useQuery({
     queryKey: ["teacherApplications"],
-    queryFn: () => axiosPublic.get("/teachers").then((res) => res.data),
+    queryFn: () => axiosSecure.get("/teachers").then((res) => res.data),
   });
 
   const approveMutation = useMutation({
     mutationFn: (id) =>
-      axiosPublic.put(`/teachers/${id}`, { status: "accepted" }),
+      axiosSecure.put(`/teachers/${id}`, { status: "accepted" }),
     onSuccess: (data, variables) => {
-      axiosPublic.put(`/teachers-profile/${variables}`, { role: "teacher" });
+      axiosSecure.put(`/teachers-profile/${variables}`, { role: "teacher" });
       setApprovedRequests((prev) => ({ ...prev, [variables]: true }));
       queryClient.invalidateQueries(["teacherApplications"]);
     },
@@ -31,7 +31,7 @@ const TeachersApplications = () => {
 
   const rejectMutation = useMutation({
     mutationFn: (id) =>
-      axiosPublic.put(`/teachers/${id}`, { status: "rejected" }),
+      axiosSecure.put(`/teachers/${id}`, { status: "rejected" }),
     onSuccess: (data, variables) => {
       setRejectedRequests((prev) => ({ ...prev, [variables]: true }));
       queryClient.invalidateQueries(["teacherApplications"]);

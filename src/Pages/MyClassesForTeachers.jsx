@@ -1,14 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2"; 
 import AuthContext from "../Context/AuthContext";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyClass = () => {
   const { user } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const MyClass = () => {
   } = useQuery({
     queryKey: ["myClasses", user?.email],
     queryFn: () =>
-      axiosPublic
+      axiosSecure
         .get(`/classes/teacher/${user?.email}`)
         .then((res) => res.data),
     enabled: !!user?.email,
@@ -29,7 +29,7 @@ const MyClass = () => {
 
   const updateMutation = useMutation({
     mutationFn: (updatedClass) =>
-      axiosPublic.put(`/classes/${updatedClass._id}`, updatedClass),
+      axiosSecure.put(`/classes/${updatedClass._id}`, updatedClass),
     onSuccess: () => {
       queryClient.invalidateQueries(["myClasses", user.email]);
       toast.success("Class updated successfully!");
@@ -41,7 +41,7 @@ const MyClass = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (classId) => axiosPublic.delete(`/classes/${classId}`),
+    mutationFn: (classId) => axiosSecure.delete(`/classes/${classId}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["myClasses", user.email]);
       toast.success("Class deleted successfully!");

@@ -3,13 +3,13 @@ import { useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import AuthContext from "../Context/AuthContext";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 import ReactStars from "react-rating-stars-component";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const EnrolledClassDetails = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [rating, setRating] = useState(0);
@@ -23,12 +23,12 @@ const EnrolledClassDetails = () => {
   } = useQuery({
     queryKey: ["assignments", id],
     queryFn: () =>
-      axiosPublic.get(`/assignments/class/${id}`).then((res) => res.data),
+      axiosSecure.get(`/assignments/class/${id}`).then((res) => res.data),
   });
 
   const submitMutation = useMutation({
     mutationFn: ({ assignmentId, submissionLink }) =>
-      axiosPublic.post(`/assignments/submit`, {
+      axiosSecure.post(`/assignments/submit`, {
         assignmentId,
         classId: id,
         userEmail: user.email,
@@ -45,7 +45,7 @@ const EnrolledClassDetails = () => {
 
   const evaluationMutation = useMutation({
     mutationFn: () =>
-      axiosPublic.post("/evaluations", {
+      axiosSecure.post("/evaluations", {
         classId: id,
         userEmail: user.email,
         userName: user.displayName,

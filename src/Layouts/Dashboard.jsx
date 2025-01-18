@@ -1,26 +1,11 @@
 import { NavLink, Outlet } from "react-router";
 import { FaBars } from "react-icons/fa";
 import logo from "../assets/logo-big.png";
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Dashboard = () => {
   const { signOutUser, user } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
-  const [userInfo, setUserInfo] = useState("");
-
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      try {
-        const response = await axiosPublic.get(`/users/${user.email}`);
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-      }
-    };
-    fetchUserRole();
-  }, [user.email, axiosPublic]);
 
   const linksForAdmin = (
     <>
@@ -118,14 +103,14 @@ const Dashboard = () => {
   );
 
   const renderLinks = () => {
-    if (userInfo.authorization == "admin") {
+    if (user?.authorization == "admin") {
       return linksForAdmin;
     }
-    if (userInfo.authorization !== "admin") {
-      if (userInfo.role == "student") {
+    if (!user?.authorization) {
+      if (user.role == "student") {
         return linksForStudent;
       }
-      if (userInfo.role == "teacher") {
+      if (user.role == "teacher") {
         return linksForTeacher;
       }
     }

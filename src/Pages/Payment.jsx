@@ -6,6 +6,7 @@ import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const Payment = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const Payment = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const {
     data: classItem,
@@ -25,7 +27,7 @@ const Payment = () => {
 
   const mutation = useMutation({
     mutationFn: () =>
-      axiosPublic.post(`/payments`, {
+      axiosSecure.post(`/payments`, {
         classId: id,
         amount: classItem.price,
         userEmail: user.email,

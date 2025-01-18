@@ -1,10 +1,12 @@
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const ClassProgress = () => {
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure()
 
   const {
     data: classInfo,
@@ -22,7 +24,7 @@ const ClassProgress = () => {
   } = useQuery({
     queryKey: ["assignments", id],
     queryFn: () =>
-      axiosPublic.get(`/assignments/class/${id}`).then((res) => res.data),
+      axiosSecure.get(`/assignments/class/${id}`).then((res) => res.data),
   });
 
   const {
@@ -32,7 +34,7 @@ const ClassProgress = () => {
   } = useQuery({
     queryKey: ["submissionCount", id],
     queryFn: () =>
-      axiosPublic.get(`/submissions/class/${id}/count`).then((res) => res.data),
+      axiosSecure.get(`/submissions/class/${id}/count`).then((res) => res.data),
   });
 
   if (classLoading || assignmentLoading || submissionLoading)

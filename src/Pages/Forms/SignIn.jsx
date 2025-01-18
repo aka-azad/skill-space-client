@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/login-animate.svg";
@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet-async";
 
 const SignIn = () => {
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -34,7 +35,7 @@ const SignIn = () => {
           })
           .then(() => {
             toast.success("Sign in successful!");
-            // Handle post response if needed
+            navigate("/");
           })
           .catch((error) => {
             toast.error("Error saving sign-in info: " + error.message);
@@ -61,7 +62,7 @@ const SignIn = () => {
           })
           .then(() => {
             toast.success("Google sign-in successful!");
-            // Handle post response if needed
+            navigate("/");
           })
           .catch((error) => {
             toast.error("Error saving sign-in info: " + error.message);

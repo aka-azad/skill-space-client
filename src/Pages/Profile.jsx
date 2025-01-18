@@ -1,41 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
 import SectionTitle from "../Components/SectionTitle";
 import AuthContext from "../Context/AuthContext";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Profile = () => {
-  const { user: contextUser, loading } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
-  const [fetchUser, setFetchUser] = useState(false);
-
-  useEffect(() => {
-    if (!loading && contextUser) {
-      setFetchUser(true);
-    }
-  }, [loading, contextUser]);
-
-  const fetchUserInfo = async () => {
-    const response = await axiosPublic.get(`/users/${contextUser.email}`);
-    return response.data;
-  };
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: fetchUserInfo,
-    enabled: fetchUser, // This ensures the query runs only if fetchUser is true
-  });
-
-  if (loading || isLoading) {
-    return <>Loading...</>;
-  }
-
-  if (error) {
-    return <>Error loading user profile: {error.message}</>;
-  }
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="container mx-auto p-4">
@@ -45,11 +13,11 @@ const Profile = () => {
       <div className="bg-white p-4 shadow rounded flex flex-col items-center">
         <img
           src={user?.photoURL}
-          alt="User"
+          alt="user"
           className="w-32 h-32 object-cover rounded-full mb-4"
         />
         <h3 className="text-xl font-bold mb-2">
-          {user?.displayName || "User Name"}
+          {user?.displayName || "user Name"}
         </h3>
         <p className="text-gray-600 mb-2">
           <strong>Role:</strong> {user?.role || "Student"}

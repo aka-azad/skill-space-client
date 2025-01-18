@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 import SectionTitle from "../Components/SectionTitle";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const UsersManagement = () => {
   const queryClient = useQueryClient();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const [searchQuery, setSearchQuery] = useState("");
 
   const {
@@ -15,13 +15,13 @@ const UsersManagement = () => {
   } = useQuery({
     queryKey: ["users", searchQuery],
     queryFn: () =>
-      axiosPublic.get(`/users?query=${searchQuery}`).then((res) => res.data),
+      axiosSecure.get(`/users?query=${searchQuery}`).then((res) => res.data),
     // enabled: searchQuery.length > 0,
   });
 
   const makeAdminMutation = useMutation({
     mutationFn: (email) =>
-      axiosPublic.put(`/users/${email}`, { authorization: "admin" }),
+      axiosSecure.put(`/users/${email}`, { authorization: "admin" }),
     onSuccess: () => {
       queryClient.invalidateQueries(["users", searchQuery]);
     },

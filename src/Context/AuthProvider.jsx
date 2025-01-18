@@ -39,20 +39,27 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser) {
         const userInfo = { email: currentUser.email };
-        try {
-          const tokenResponse = await axiosPublic.post("/jwt", userInfo);
-          if (tokenResponse.data.token) {
-            localStorage.setItem("access-token", tokenResponse.data.token);
-          }
-          const roleResponse = await axiosPublic.get(
-            `/users/${currentUser.email}`
-          );
-          setUser({ ...currentUser, role: roleResponse.data.role });
-        } catch (error) {
-          console.error("Error getting user data:", error);
-        } finally {
-          setLoading(false);
-        }
+        axiosPublic
+          .post("/jwt", userInfo)
+          .then((tokenResponse) => {
+            if (tokenResponse.data.token) {
+              localStorage.setItem("access-token", tokenResponse.data.token);
+              axiosPublic
+                .get(`/users/${currentUser.email}`)
+                .then((roleResponse) => {
+                  setUser({ ...currentUser, role: roleResponse.data.role, authorization: roleResponse.data?.authorization});
+                  setLoading(false);
+                })
+                .catch((error) => {
+                  console.error("Error getting user role:", error);
+                  setLoading(false);
+                });
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting JWT:", error);
+            setLoading(false);
+          });
       } else {
         localStorage.removeItem("access-token");
         setLoading(false);

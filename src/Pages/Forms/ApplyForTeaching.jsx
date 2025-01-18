@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AuthContext from "../../Context/AuthContext";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import SectionTitle from "../../Components/SectionTitle";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ApplyForTeaching = () => {
   const { user, loading } = useContext(AuthContext);
   const queryClient = useQueryClient();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const [defaultValues, setDefaultValues] = useState({});
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ApplyForTeaching = () => {
 
   const mutation = useMutation({
     mutationFn: (newApplication) =>
-      axiosPublic.post("/teacher-requests", newApplication),
+      axiosSecure.post("/teacher-requests", newApplication),
     onSuccess: () => {
       queryClient.invalidateQueries(["teacherRequests"]);
       toast.success("Application submitted successfully!");
@@ -56,7 +56,10 @@ const ApplyForTeaching = () => {
 
   return (
     <div className="container mx-auto p-4">
-        <SectionTitle title="Apply for Becoming a teacher" subtitle={'Be the light house for Future'}/>
+      <SectionTitle
+        title="Apply for Becoming a teacher"
+        subtitle={"Be the light house for Future"}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto">
         <label className="block mb-4">

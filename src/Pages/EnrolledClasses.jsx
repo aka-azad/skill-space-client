@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 import {  useNavigate } from "react-router";
 import EnrolledClassCard from "../Components/EnrolledClassCard";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const EnrolledClasses = () => {
   const { user } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   const {
@@ -17,7 +17,7 @@ const EnrolledClasses = () => {
   } = useQuery({
     queryKey: ["enrolledClasses"],
     queryFn: () =>
-      axiosPublic.get(`/enrollments/${user.email}`).then((res) => res.data),
+      axiosSecure.get(`/enrollments/${user.email}`).then((res) => res.data),
   });
 
   const handleContinue = (classId) => {

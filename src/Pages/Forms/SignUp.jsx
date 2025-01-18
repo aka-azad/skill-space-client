@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaLock, FaImage, FaGoogle } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
 import { Fade } from "react-awesome-reveal";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Helmet } from "react-helmet-async";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
@@ -14,6 +14,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 const SignUp = () => {
   const { createUserWithEmailPass, signinWithGoogle } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -41,6 +42,7 @@ const SignUp = () => {
               })
               .then(() => {
                 toast.success("Sign up successful!");
+                navigate("/");
                 // navigate user to home
               })
               .catch((error) => {
@@ -74,6 +76,7 @@ const SignUp = () => {
           })
           .then(() => {
             toast.success("Google sign-in successful!");
+            navigate("/");
             // navigate user to home
           })
           .catch((error) => {

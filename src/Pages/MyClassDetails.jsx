@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 
 const MyClassDetails = () => {
   const { id } = useParams();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [assignmentTitle, setAssignmentTitle] = useState("");
@@ -19,7 +19,7 @@ const MyClassDetails = () => {
     isLoading: classLoading,
   } = useQuery({
     queryKey: ["classInfo", id],
-    queryFn: () => axiosPublic.get(`/class/${id}`).then((res) => res.data),
+    queryFn: () => axiosSecure.get(`/class/${id}`).then((res) => res.data),
   });
 
   const {
@@ -29,7 +29,7 @@ const MyClassDetails = () => {
   } = useQuery({
     queryKey: ["assignments", id],
     queryFn: () =>
-      axiosPublic.get(`/assignments/class/${id}`).then((res) => res.data),
+      axiosSecure.get(`/assignments/class/${id}`).then((res) => res.data),
   });
 
   const {
@@ -39,12 +39,12 @@ const MyClassDetails = () => {
   } = useQuery({
     queryKey: ["submissionCount", id],
     queryFn: () =>
-      axiosPublic.get(`/submissions/class/${id}/count`).then((res) => res.data),
+      axiosSecure.get(`/submissions/class/${id}/count`).then((res) => res.data),
   });
 
   const createAssignmentMutation = useMutation({
     mutationFn: (newAssignment) =>
-      axiosPublic.post(`/assignments`, newAssignment),
+      axiosSecure.post(`/assignments`, newAssignment),
     onSuccess: () => {
       queryClient.invalidateQueries(["assignments", id]);
       toast.success("Assignment created successfully!");

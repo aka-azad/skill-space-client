@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import AuthContext from "../../Context/AuthContext";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useNavigate } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ClassForm = () => {
   const { user } = useContext(AuthContext);
@@ -17,8 +17,8 @@ const ClassForm = () => {
     defaultValues: defaultValues,
   });
   const queryClient = useQueryClient();
-  const axiosPublic = useAxiosPublic();
-  //   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
   useEffect(() => {
     user &&
@@ -28,11 +28,11 @@ const ClassForm = () => {
       });
   }, [user]);
   const mutation = useMutation({
-    mutationFn: (newClass) => axiosPublic.post("/classes", newClass),
+    mutationFn: (newClass) => axiosSecure.post("/classes", newClass),
     onSuccess: () => {
       queryClient.invalidateQueries(["classes"]);
       queryClient.invalidateQueries(["myClasses"]);
-      //   navigate("/my-classes");
+        navigate("/my-classes");
     },
     onError: (error) => {
       toast.error(`Error adding class: ${error.message}`);
