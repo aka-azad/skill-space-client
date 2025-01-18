@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import SectionTitle from "./SectionTitle";
 import ReactStars from "react-rating-stars-component";
+import SmallLottieLoader from "./SmallLottieLoader";
 
 const FeedbackOfStudents = () => {
   const axiosPublic = useAxiosPublic();
@@ -46,44 +47,47 @@ const FeedbackOfStudents = () => {
     slidesToScroll: 1,
   };
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading feedbacks: {error.message}</div>;
 
   return (
     <div className="py-12 bg-base-200">
       <div className="container mx-auto">
-        <SectionTitle title="Feedback From Our Users" />
-        <div className="p-16 bg-white bg-opacity-45 rounded-md backdrop-blur-md">
-          <Slider {...settings}>
-            {feedbacksWithClassTitles.map((feedback) => (
-              <div key={feedback._id} className="p-4">
-                <div className="bg-accent bg-opacity-25 p-4 shadow rounded-sm h-full flex flex-col items-center">
-                  <img
-                    src={feedback.userImage}
-                    alt={feedback.userName}
-                    className="w-20 h-20 object-cover rounded-full mb-4"
-                  />
-                  <h3 className="text-xl font-bold mb-2 text-center">
-                    {feedback.userName}
-                  </h3>
-                  <p className="mb-2 text-center">
-                    <strong>Class:</strong> {feedback.classTitle}
-                  </p>
-                  <p className="mb-2 text-center">{feedback.description}</p>
-                  <div className="mb-4">
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      activeColor="#ffd700"
-                      edit={false}
-                      value={feedback.rating}
+        <SectionTitle title="Feedback From Our Students" />
+        {isLoading ? (
+          <SmallLottieLoader />
+        ) : (
+          <div className="p-16 bg-white bg-opacity-45 rounded-md backdrop-blur-md">
+            <Slider {...settings}>
+              {feedbacksWithClassTitles.map((feedback) => (
+                <div key={feedback._id} className="p-4">
+                  <div className="bg-accent bg-opacity-25 p-4 shadow rounded-sm h-full flex flex-col items-center">
+                    <img
+                      src={feedback.userImage}
+                      alt={feedback.userName}
+                      className="w-20 h-20 object-cover rounded-full mb-4"
                     />
+                    <h3 className="text-xl font-bold mb-2 text-center">
+                      {feedback.userName}
+                    </h3>
+                    <p className="mb-2 text-center">
+                      <strong>Class:</strong> {feedback.classTitle}
+                    </p>
+                    <p className="mb-2 text-center">{feedback.description}</p>
+                    <div className="mb-4">
+                      <ReactStars
+                        count={5}
+                        size={24}
+                        activeColor="#ffd700"
+                        edit={false}
+                        value={feedback.rating}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </Slider>
-        </div>
+              ))}
+            </Slider>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 import ClassCard from "../Components/ClassCard";
 import SectionTitle from "../Components/SectionTitle";
 import { Helmet } from "react-helmet-async";
+import LottieLoader from "../Components/LottieLoader";
 
 const AllClasses = () => {
   const axiosPublic = useAxiosPublic();
@@ -17,7 +18,6 @@ const AllClasses = () => {
       axiosPublic.get("/classes/available").then((res) => res.data),
   });
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading classes: {error.message}</div>;
 
   return (
@@ -30,12 +30,15 @@ const AllClasses = () => {
         title="Enroll To Your Desired Courses"
         subtitle="Take a Knowledge Booster"
       />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {classes.map((classItem) => (
-          <ClassCard key={classItem._id} classItem={classItem} />
-        ))}
-      </div>
+      {isLoading ? (
+        <LottieLoader />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {classes.map((classItem) => (
+            <ClassCard key={classItem._id} classItem={classItem} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

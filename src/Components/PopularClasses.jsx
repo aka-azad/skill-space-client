@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import SectionTitle from "./SectionTitle";
 import ClassCard from "./ClassCard";
+import SmallLottieLoader from "./SmallLottieLoader";
 
 const PopularClasses = () => {
   const axiosPublic = useAxiosPublic();
@@ -45,20 +46,22 @@ const PopularClasses = () => {
     ],
   };
 
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading popular classes: {error.message}</div>;
 
   return (
     <div className="py-12 container mx-auto w-11/12">
       <SectionTitle title="Popular Now" />
-      <Slider {...settings}>
-        {popularClasses.map((classItem) => (
-          <div key={classItem._id} className="p-4">
-            <ClassCard classItem={classItem} />
-          </div>
-          
-        ))}
-      </Slider>
+      {isLoading ? (
+        <SmallLottieLoader />
+      ) : (
+        <Slider {...settings}>
+          {popularClasses.map((classItem) => (
+            <div key={classItem._id} className="p-4">
+              <ClassCard classItem={classItem} />
+            </div>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };
