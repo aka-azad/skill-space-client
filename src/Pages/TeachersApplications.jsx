@@ -54,71 +54,73 @@ const TeachersApplications = () => {
         title="Teachers Applications"
         subtitle={"Approve if it meets requirements"}
       />
-      <table className="table w-full overflow-auto">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Experience</th>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Approve</th>
-            <th>Reject</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applications.map((request) => (
-            <tr key={request._id}>
-              <td>{request.name}</td>
-              <td>
-                <img
-                  src={request.image}
-                  alt={request.name}
-                  className="w-16 h-16 object-cover rounded"
-                />
-              </td>
-              <td>{request.experience}</td>
-              <td>{request.title}</td>
-              <td>{request.category}</td>
-              <td>
-                {request.status.charAt(0).toUpperCase() +
-                  request.status.slice(1)}
-              </td>
-              <td>
-                {approvedRequests[request._id] ? (
-                  <button className="btn btn-success" disabled>
-                    Approved
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-success"
-                    disabled={request.status === "accepted"}
-                    onClick={() => handleApprove(request._id)}
-                  >
-                    {request.status === "accepted" ? "Approved" : "Approve"}
-                  </button>
-                )}
-              </td>
-              <td>
-                {rejectedRequests[request._id] ? (
-                  <button className="btn btn-danger" disabled>
-                    Rejected
-                  </button>
-                ) : (
-                  <button
-                    disabled={request.status === "rejected"}
-                    className="btn btn-danger"
-                    onClick={() => handleReject(request._id)}
-                  >
-                    {request.status === "rejected" ? "Rejected" : "Reject"}
-                  </button>
-                )}
-              </td>
+      <div className="w-full overflow-auto">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Image</th>
+              <th>Experience</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Status</th>
+              <th>Approve</th>
+              <th>Reject</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {applications.map((request) => (
+              <tr key={request._id}>
+                <td>{request.name}</td>
+                <td>
+                  <img
+                    src={request.image}
+                    alt={request.name}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                </td>
+                <td>{request.experience}</td>
+                <td>{request.title}</td>
+                <td>{request.category}</td>
+                <td>
+                  {request.status.charAt(0).toUpperCase() +
+                    request.status.slice(1)}
+                </td>
+                <td>
+                  {approvedRequests[request._id] ? (
+                    <button className="btn btn-success" disabled>
+                      Approved
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-success"
+                      disabled={request.status === "accepted"}
+                      onClick={() => handleApprove(request._id)}
+                    >
+                      {request.status === "accepted" ? "Approved" : "Approve"}
+                    </button>
+                  )}
+                </td>
+                <td>
+                  {rejectedRequests[request._id] ? (
+                    <button className="btn btn-danger" disabled>
+                      Rejected
+                    </button>
+                  ) : (
+                    <button
+                      disabled={request.status === "rejected"}
+                      className="btn btn-danger"
+                      onClick={() => handleReject(request._id)}
+                    >
+                      {request.status === "rejected" ? "Rejected" : "Reject"}
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

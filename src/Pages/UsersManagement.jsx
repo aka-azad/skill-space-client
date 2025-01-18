@@ -54,6 +54,7 @@ const UsersManagement = () => {
       </form>
       {isLoading && <div>Loading...</div>}
       {error && <div>Error loading users: {error.message}</div>}
+    <div className="w-full overflow-auto">
       {users && (
         <table className="table w-full">
           <thead>
@@ -95,6 +96,7 @@ const UsersManagement = () => {
           </tbody>
         </table>
       )}
+      </div>
     </div>
   );
 };

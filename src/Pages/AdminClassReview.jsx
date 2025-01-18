@@ -58,6 +58,7 @@ const AdminClassReview = () => {
         title="Class Review"
         subtitle={"Approve if it meets requirements"}
       />
+      <div className="w-full  overflow-auto">
       <table className="table w-full">
         <thead>
           <tr>
@@ -127,6 +128,7 @@ const AdminClassReview = () => {
             ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
