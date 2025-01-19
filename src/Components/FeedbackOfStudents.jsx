@@ -51,13 +51,13 @@ const FeedbackOfStudents = () => {
 
   return (
     <div className="py-12 bg-base-200">
-      <div className="container mx-auto">
+      <div className="container max-w-[1280px] mx-auto">
         <SectionTitle title="Feedback From Our Students" />
         {isLoading ? (
           <SmallLottieLoader />
         ) : (
           <div className="p-16 bg-white bg-opacity-45 rounded-md backdrop-blur-md">
-            <Slider {...settings}>
+            <Slider {...settings} autoplay={true} autoplaySpeed={3000}>
               {feedbacksWithClassTitles.map((feedback) => (
                 <div key={feedback._id} className="p-4">
                   <div className="bg-accent bg-opacity-25 p-4 shadow rounded-sm h-full flex flex-col items-center">
@@ -72,7 +72,11 @@ const FeedbackOfStudents = () => {
                     <p className="mb-2 text-center">
                       <strong>Class:</strong> {feedback.classTitle}
                     </p>
-                    <p className="mb-2 text-center">{feedback.description}</p>
+                    <div className="h-14">
+                      <p className="mb-2 text-center ">
+                        {feedback.description}
+                      </p>
+                    </div>
                     <div className="mb-4">
                       <ReactStars
                         count={5}

@@ -91,8 +91,7 @@ const CheckoutForm = ({ id }) => {
     if (error) {
       console.log("payment error", error);
       setError(error.message);
-    } else {
-      console.log("payment method", paymentMethod);
+    } else if (paymentMethod) {
       setError("");
     }
 

@@ -6,6 +6,7 @@ import AuthContext from "../Context/AuthContext";
 import ReactStars from "react-rating-stars-component";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import LottieLoader from "../Components/LottieLoader";
+import SectionTitle from "../Components/SectionTitle";
 
 const EnrolledClassDetails = () => {
   const { user } = useContext(AuthContext);
@@ -90,7 +91,10 @@ const EnrolledClassDetails = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Assignments for this Course</h2>
+      <SectionTitle
+        title="Assignments for this Course"
+        subtitle={"Make sure to submit before Deadline"}
+      />
       {isLoading ? (
         <LottieLoader />
       ) : (

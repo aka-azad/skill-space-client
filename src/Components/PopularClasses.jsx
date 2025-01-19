@@ -49,19 +49,21 @@ const PopularClasses = () => {
   if (error) return <div>Error loading popular classes: {error.message}</div>;
 
   return (
-    <div className="py-12 container mx-auto w-11/12">
-      <SectionTitle title="Popular Now" />
-      {isLoading ? (
-        <SmallLottieLoader />
-      ) : (
-        <Slider {...settings}>
-          {popularClasses.map((classItem) => (
-            <div key={classItem._id} className="p-4">
-              <ClassCard classItem={classItem} />
-            </div>
-          ))}
-        </Slider>
-      )}
+    <div className="max-w-[1280px] mx-auto">
+      <div className="py-12 container mx-auto w-11/12">
+        <SectionTitle title="Popular Now" />
+        {isLoading ? (
+          <SmallLottieLoader />
+        ) : (
+          <Slider {...settings} autoplay={true} autoplaySpeed={3000}>
+            {popularClasses.map((classItem) => (
+              <div key={classItem._id} className="p-4">
+                <ClassCard classItem={classItem} />
+              </div>
+            ))}
+          </Slider>
+        )}
+      </div>
     </div>
   );
 };

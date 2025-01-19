@@ -1,7 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { FaEnvelope, FaLock, FaGoogle } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaGoogle,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
 import { Link, useNavigate } from "react-router";
 import AuthContext from "../../Context/AuthContext";
@@ -10,7 +16,21 @@ import signupSVG from "../../assets/login-animate.svg";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { Helmet } from "react-helmet-async";
 
+const regexValidate = {
+  minLength: (value) =>
+    value.length >= 6 || "Password must be at least 6 characters long",
+  hasUpperCase: (value) =>
+    /[A-Z]/.test(value) ||
+    "Password must contain at least one uppercase letter",
+  hasLowerCase: (value) =>
+    /[a-z]/.test(value) ||
+    "Password must contain at least one lowercase letter",
+  hasNumber: (value) =>
+    /\d/.test(value) || "Password must contain at least one number",
+};
+
 const SignIn = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const {
@@ -99,7 +119,7 @@ const SignIn = () => {
                 />
               </label>
               {errors.email && (
-                <p className="text-red-500 text-xs italic">
+                <p className="text-red-500 text-xs italic mb-1">
                   {errors.email.message}
                 </p>
               )}
@@ -108,16 +128,20 @@ const SignIn = () => {
                 <FaLock className="h-4 w-4 opacity-70" />
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   {...register("password", {
                     required: "Password is required",
+                    validate: regexValidate,
                   })}
                   className="grow"
                 />
+                <div onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </div>
               </label>
               {errors.password && (
-                <p className="text-red-500 text-xs italic">
+                <p className="text-red-500 mb-1 text-xs italic">
                   {errors.password.message}
                 </p>
               )}

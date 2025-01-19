@@ -108,7 +108,7 @@ const TeachersApplications = () => {
                       ) : (
                         <button
                           className="btn btn-success"
-                          disabled={request.status === "accepted"}
+                          disabled={request.status === "accepted" || request.status === "rejected"}
                           onClick={() => handleApprove(request._id)}
                         >
                           {request.status === "accepted"

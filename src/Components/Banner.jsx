@@ -10,12 +10,12 @@ import { useRef } from "react";
 const Banner = () => {
   const imgLinks = [
     {
-      link: "https://blogbymichele.wordpress.com/wp-content/uploads/2023/04/success.jpg",
-      text: "Empower Ideas, Fund Futures",
+      link: "https://i.ibb.co.com/dPmx9bR/DALL-E-2025-01-14-15-38-16-A-visually-engaging-depiction-of-skill-building-through-online-education.webp",
+      text: "Invest yor time to improve skills",
     },
     {
-      link: "https://i.ibb.co.com/dPmx9bR/DALL-E-2025-01-14-15-38-16-A-visually-engaging-depiction-of-skill-building-through-online-education.webp",
-      text: "Invest in Innovation",
+      link: "https://blogbymichele.wordpress.com/wp-content/uploads/2023/04/success.jpg",
+      text: "Empower Ideas, Fund Futures",
     },
     {
       link: "https://i.ibb.co.com/GtryLxQ/DALL-E-2025-01-14-15-39-04-A-modern-online-teaching-scene-showing-a-teacher-conducting-a-virtual-cla.webp",
@@ -31,13 +31,9 @@ const Banner = () => {
     },
   ];
   const progressContent = useRef(null);
-  // https://ibb.co.com/cDsPTDG
-  // https://ibb.co.com/dK0GVky
-  // https://ibb.co.com/nnK9vgM
-  // https://ibb.co.com/PcD0pTd
 
   return (
-    <div className="container mx-auto mt-8 mb-11">
+    <div className="container max-w-[1280px] mx-auto mt-8 mb-11">
       <Swiper
         navigation={true}
         spaceBetween={50}
@@ -60,7 +56,7 @@ const Banner = () => {
               alt={`slide-${i}`}
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-2xl">
-              <h2 className="text-4xl text-white font-bold text-center px-4">
+              <h2 className="lg:text-4xl md:text-3xl sm:text-2xl text-xl text-white font-bold text-center px-4">
                 <Typewriter
                   words={[slide.text]}
                   loop={1}

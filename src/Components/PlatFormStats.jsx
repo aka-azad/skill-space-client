@@ -19,7 +19,7 @@ const PlatformStats = () => {
   if (error) return <div>Error loading stats: {error.message}</div>;
 
   return (
-    <div className="py-12">
+    <div className="py-12 max-w-[1280px] mx-auto">
       <SectionTitle title="Our Dynamic Stats" />
       {isLoading ? (
         <SmallLottieLoader />

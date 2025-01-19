@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import SectionTitle from "../Components/SectionTitle";
 
 const ClassProgress = () => {
   const { id } = useParams();
@@ -47,8 +48,12 @@ const ClassProgress = () => {
     return <div>Error loading submission count: {submissionError.message}</div>;
   return (
     <div className="container mx-auto p-4">
+       <SectionTitle
+              title={`${classInfo.title} - Class Progress`}
+              subtitle={"Make sure to submit before Deadline"}
+            />
       <h2 className="text-2xl font-bold mb-4">
-        {classInfo.title} - Class Progress
+        
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-accent bg-opacity-20 text-accent-content p-4 shadow rounded">

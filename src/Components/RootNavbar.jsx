@@ -29,7 +29,7 @@ const RootNavbar = () => {
 
   return (
     <div className=" bg-neutral bg-opacity-50 backdrop-blur-lg border-b-2  mb-3 shadow-lg sticky top-0 z-50">
-      <div className="navbar sm:w-10/12 mx-auto">
+      <div className="navbar max-w-[1280px] sm:w-full px-2 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -81,8 +81,7 @@ const RootNavbar = () => {
           ) : user ? (
             <>
               <div
-                className="tooltip tooltip-bottom ml-3 sm:mr-0 mr-1"
-                data-tip={user.displayName}
+                
               >
                 <div className="dropdown dropdown-end">
                   <div

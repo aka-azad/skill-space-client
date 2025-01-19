@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import SectionTitle from "../Components/SectionTitle";
 
 const MyClassDetails = () => {
   const { id } = useParams();
@@ -76,9 +77,7 @@ const MyClassDetails = () => {
     return <div>Error loading submission count: {submissionError.message}</div>;
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">
-        {classInfo.title} - Class Progress
-      </h2>
+      <SectionTitle title={`${classInfo.title} - Class Progress`} />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className=" p-4 shadow rounded">
           <h3 className="text-xl font-bold mb-2">Total Enrollment</h3>

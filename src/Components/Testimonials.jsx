@@ -18,7 +18,7 @@ const Testimonials = () => {
 
   return (
     <div className="py-12 bg-base-200">
-      <div className="container mx-auto">
+      <div className="container max-w-[1280px] mx-auto">
         <h2 className="text-3xl font-bold mb-8 text-center">
           What People Say About Us
         </h2>

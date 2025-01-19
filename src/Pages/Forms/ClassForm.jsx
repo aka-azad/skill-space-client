@@ -33,7 +33,7 @@ const ClassForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["classes"]);
       queryClient.invalidateQueries(["myClasses"]);
-      navigate("/my-classes");
+      navigate("/dashboard/my-class");
     },
     onError: (error) => {
       toast.error(`Error adding class: ${error.message}`);

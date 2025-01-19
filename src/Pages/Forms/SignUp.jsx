@@ -1,7 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { FaUser, FaEnvelope, FaLock, FaImage, FaGoogle } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaImage,
+  FaGoogle,
+  FaEyeSlash,
+  FaEye,
+} from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
 import { Fade } from "react-awesome-reveal";
 import { Link, useNavigate } from "react-router";
@@ -11,8 +19,22 @@ import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/sign-up-animate.svg";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
+const regexValidate = {
+  minLength: (value) =>
+    value.length >= 6 || "Password must be at least 6 characters long",
+  hasUpperCase: (value) =>
+    /[A-Z]/.test(value) ||
+    "Password must contain at least one uppercase letter",
+  hasLowerCase: (value) =>
+    /[a-z]/.test(value) ||
+    "Password must contain at least one lowercase letter",
+  hasNumber: (value) =>
+    /\d/.test(value) || "Password must contain at least one number",
+};
+
 const SignUp = () => {
   const { createUserWithEmailPass, signinWithGoogle } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
@@ -140,13 +162,17 @@ const SignUp = () => {
                 <FaLock className="h-4 w-4 opacity-70" />
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   {...register("password", {
                     required: "Password is required",
+                    validate: regexValidate,
                   })}
                   className="grow"
                 />
+                <div onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </div>
               </label>
               {errors.password && (
                 <p className="text-red-500 text-xs italic">
@@ -186,9 +212,7 @@ const SignUp = () => {
               <FaGoogle className="h-4 w-4" />
               Sign Up with Google
             </button>
-            <p className="text-red-500 text-center text-xs italic">
-              *For Teachers: Select your role First!
-            </p>
+
             <div className="flex flex-col items-center mt-4">
               <p>
                 Have an account?{" "}

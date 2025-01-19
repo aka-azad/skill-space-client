@@ -21,6 +21,7 @@ const UsersManagement = () => {
         .get(`/users?query=${searchQuery}&page=${currentPage}&limit=10`)
         .then((res) => res.data),
     keepPreviousData: true,
+    
   });
 
   const makeAdminMutation = useMutation({

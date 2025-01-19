@@ -18,7 +18,7 @@ const UpcomingEvents = () => {
 
   return (
     <div className="py-12 bg-accent bg-opacity-65">
-      <div className="container mx-auto">
+      <div className="container max-w-[1280px] mx-auto">
         <SectionTitle  title="Upcoming Events" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {events.map((event, index) => (
