@@ -34,30 +34,30 @@ const Dashboard = () => {
           All Courses
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink
           to="/dashboard/enrolled-classes"
           className="block hover:bg-gray-600 p-2 rounded"
         >
           Enrolled Classes
         </NavLink>
-      </li>
-      <li>
+      </li> */}
+      {/* <li>
         <NavLink
           to="/dashboard/add-class"
           className="block hover:bg-gray-600 p-2 rounded"
         >
           Add class
         </NavLink>
-      </li>
-      <li>
+      </li> */}
+      {/* <li>
         <NavLink
           to="/dashboard/my-class"
           className="block hover:bg-gray-600 p-2 rounded"
         >
           My Class
         </NavLink>
-      </li>
+      </li> */}
     </>
   );
 
@@ -76,14 +76,14 @@ const Dashboard = () => {
 
   const linksForTeacher = (
     <>
-      <li>
+      {/* <li>
         <NavLink
           to="/dashboard/enrolled-classes"
           className="block hover:bg-gray-600 p-2 rounded"
         >
           Enrolled Classes
         </NavLink>
-      </li>
+      </li> */}
       <li>
         <NavLink
           to="/dashboard/add-class"

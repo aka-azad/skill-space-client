@@ -69,7 +69,7 @@ const RootNavbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             {links}
-            {user && user?.role == "student" && privateLinks}
+            {user  && privateLinks}
           </ul>
         </div>
         <div className="navbar-end">
@@ -106,19 +106,14 @@ const RootNavbar = () => {
                     </li>
 
                     <li>
-                      <button onClick={signOutUser} className="sm:hidden block">
+                      <button onClick={signOutUser} className=" block">
                         Sign Out
                       </button>
                     </li>
                   </ul>
                 </div>
               </div>
-              <button
-                onClick={signOutUser}
-                className="btn ml-3 btn-outline border-2 text-base text-white hidden sm:block"
-              >
-                Sign Out
-              </button>
+              
             </>
           ) : location.pathname === "/sign-in" ? (
             <Link
