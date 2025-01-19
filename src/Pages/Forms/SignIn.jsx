@@ -15,6 +15,7 @@ import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/login-animate.svg";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { Helmet } from "react-helmet-async";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const regexValidate = {
   minLength: (value) =>
@@ -33,6 +34,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -40,27 +42,31 @@ const SignIn = () => {
   } = useForm();
   const { signinWithEmailPass, signinWithGoogle } = useContext(AuthContext);
 
+  const saveUserMutation = useMutation({
+    mutationFn: (user) => axiosPublic.post("/users", user),
+    onSuccess: () => {
+      toast.success("Sign in successful!");
+      queryClient.invalidateQueries(["users"]);
+      navigate("/");
+    },
+    onError: (error) => {
+      toast.error("Error saving sign-in info: " + error.message);
+      console.error("Error saving sign-in info: ", error);
+    },
+  });
+
   const onSubmit = (data) => {
     signinWithEmailPass(data.email, data.password)
       .then((res) => {
         const { displayName, photoURL, email } = res.user;
 
-        // Store sign-in info to DB
-        axiosPublic
-          .post("/users", {
-            displayName,
-            photoURL,
-            email,
-            lastSignIn: new Date().toISOString(),
-          })
-          .then(() => {
-            toast.success("Sign in successful!");
-            navigate("/");
-          })
-          .catch((error) => {
-            toast.error("Error saving sign-in info: " + error.message);
-            console.error("Error saving sign-in info: ", error);
-          });
+        const userInfo = {
+          displayName,
+          photoURL,
+          email,
+          lastSignIn: new Date().toISOString(),
+        };
+        saveUserMutation.mutate(userInfo);
       })
       .catch((error) => {
         toast.error("Error signing in: " + error.message);
@@ -72,22 +78,13 @@ const SignIn = () => {
       .then((res) => {
         const { displayName, photoURL, email } = res.user;
 
-        // Store sign-in info to DB if new user, store user to DB
-        axiosPublic
-          .post("/users", {
-            displayName,
-            photoURL,
-            email,
-            lastSignIn: new Date().toISOString(),
-          })
-          .then(() => {
-            toast.success("Google sign-in successful!");
-            navigate("/");
-          })
-          .catch((error) => {
-            toast.error("Error saving sign-in info: " + error.message);
-            console.error("Error saving sign-in info: ", error);
-          });
+        const userInfo = {
+          displayName,
+          photoURL,
+          email,
+          lastSignIn: new Date().toISOString(),
+        };
+        saveUserMutation.mutate(userInfo);
       })
       .catch((error) => {
         toast.error("Error signing in with Google: " + error.message);

@@ -18,6 +18,7 @@ import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/sign-up-animate.svg";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const regexValidate = {
   minLength: (value) =>
@@ -37,12 +38,26 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const saveUserMutation = useMutation({
+    mutationFn: (newUser) => axiosPublic.post("/users", newUser),
+    onSuccess: () => {
+      toast.success("User saved successfully!");
+      queryClient.invalidateQueries(["users"]);
+      navigate("/");
+    },
+    onError: (error) => {
+      toast.error("Error saving user info: " + error.message);
+      console.error("Error saving user info: ", error);
+    },
+  });
 
   const onSubmit = (data) => {
     createUserWithEmailPass(data.email, data.password)
@@ -53,28 +68,18 @@ const SignUp = () => {
           photoURL: data.photoURL,
         })
           .then(() => {
-            // Save user info to DB
-            axiosPublic
-              .post("/users", {
-                displayName: data.name,
-                photoURL: data.photoURL,
-                email: data.email,
-                role: "student",
-                lastSignIn: new Date().toISOString(),
-              })
-              .then(() => {
-                toast.success("Sign up successful!");
-                navigate("/");
-                // navigate user to home
-              })
-              .catch((error) => {
-                toast.error("Error saving user info: " + error.message);
-                console.error("Error saving user info: ", error);
-              });
+            const newUser = {
+              displayName: data.name,
+              photoURL: data.photoURL,
+              email: data.email,
+              role: "student",
+              lastSignIn: new Date().toISOString(),
+            };
+            saveUserMutation.mutate(newUser);
           })
           .catch((error) => {
-            console.error("Error updating profile: ", error);
             toast.error("Error updating profile: " + error.message);
+            console.error("Error updating profile: ", error);
           });
       })
       .catch((error) => {
@@ -87,27 +92,16 @@ const SignUp = () => {
       .then((res) => {
         const { displayName, photoURL, email } = res.user;
 
-        // Save user info to DB
-        axiosPublic
-          .post("/users", {
-            displayName,
-            photoURL,
-            email,
-            role: "student",
-            lastSignIn: new Date().toISOString(),
-          })
-          .then(() => {
-            toast.success("Google sign-in successful!");
-            navigate("/");
-            // navigate user to home
-          })
-          .catch((error) => {
-            toast.error("Error saving user info: " + error.message);
-            console.error("Error saving user info: ", error);
-          });
+        const newUser = {
+          displayName,
+          photoURL,
+          email,
+          role: "student",
+          lastSignIn: new Date().toISOString(),
+        };
+        saveUserMutation.mutate(newUser);
       })
       .catch((error) => {
-        console.log(error);
         toast.error("Error signing in with Google: " + error.message);
       });
   };
