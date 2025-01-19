@@ -4,7 +4,7 @@ import AuthContext from "../Context/AuthContext";
 import axios from "axios";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://skillspace-server.vercel.app",
   // baseURL: "https://skillspace-server.vercel.app",
 });
 

@@ -56,7 +56,7 @@ const FeedbackOfStudents = () => {
         {isLoading ? (
           <SmallLottieLoader />
         ) : (
-          <div className="p-16 bg-white bg-opacity-45 rounded-md backdrop-blur-md">
+          <div className="md:p-16 p-10 bg-white bg-opacity-45 rounded-md backdrop-blur-md">
             <Slider {...settings} autoplay={true} autoplaySpeed={3000}>
               {feedbacksWithClassTitles.map((feedback) => (
                 <div key={feedback._id} className="p-4">
@@ -69,7 +69,7 @@ const FeedbackOfStudents = () => {
                     <h3 className="text-xl font-bold mb-2 text-center">
                       {feedback.userName}
                     </h3>
-                    <p className="mb-2 text-center">
+                    <p className="mb-2 text-center truncate">
                       <strong>Class:</strong> {feedback.classTitle}
                     </p>
                     <div className="h-14">

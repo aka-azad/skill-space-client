@@ -21,6 +21,7 @@ import MyClassDetails from "../Pages/MyClassDetails";
 import ClassProgress from "../Pages/ClassProgress";
 import PrivateRoute from "./PrivateRoute";
 import RedirectHomeRoute from "./RedirectHomeRoute";
+import DashboardWelcomePage from "../Pages/DashboardWelcomePage";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "/dashboard",
+        element: <DashboardWelcomePage />,
+      },
       {
         path: "add-class",
         element: <ClassForm />,

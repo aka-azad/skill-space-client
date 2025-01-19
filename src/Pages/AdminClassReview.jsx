@@ -148,9 +148,11 @@ const AdminClassReview = () => {
           {classesData && (
             <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
               <div>
-                Total Classes: {classesData ? classesData.totalClasses : 0} |
-                Displaying: {classesData ? classesData.classes.length : 0}{" "}
-                classes
+                <p className="text-sm sm:text-base">
+                  Total Classes: {classesData ? classesData.totalClasses : 0} |
+                  Displaying: {classesData ? classesData.classes.length : 0}{" "}
+                  classes
+                </p>
               </div>
               <div className="join">
                 {Array.from({ length: totalPages }, (_, index) => (

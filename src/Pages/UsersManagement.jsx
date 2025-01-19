@@ -21,7 +21,6 @@ const UsersManagement = () => {
         .get(`/users?query=${searchQuery}&page=${currentPage}&limit=10`)
         .then((res) => res.data),
     keepPreviousData: true,
-    
   });
 
   const makeAdminMutation = useMutation({
@@ -107,8 +106,10 @@ const UsersManagement = () => {
       {usersData && (
         <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
           <div>
-            Total Users: {usersData ? usersData.totalUsers : 0} | Displaying:{" "}
-            {usersData ? usersData.users.length : 0} users
+            <p className="text-sm sm:text-base">
+              Total Users: {usersData ? usersData.totalUsers : 0} | Displaying:{" "}
+              {usersData ? usersData.users.length : 0} users
+            </p>{" "}
           </div>
           <div className="join">
             {Array.from({ length: totalPages }, (_, index) => (

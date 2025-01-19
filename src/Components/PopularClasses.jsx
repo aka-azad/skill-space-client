@@ -50,7 +50,7 @@ const PopularClasses = () => {
 
   return (
     <div className="max-w-[1280px] mx-auto">
-      <div className="py-12 container mx-auto w-11/12">
+      <div className="py-12 container mx-auto px-6 w-11/12">
         <SectionTitle title="Popular Now" />
         {isLoading ? (
           <SmallLottieLoader />

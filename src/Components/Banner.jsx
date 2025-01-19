@@ -51,7 +51,7 @@ const Banner = () => {
         {imgLinks.map((slide, i) => (
           <SwiperSlide key={i} className="relative">
             <img
-              className="w-full max-h-[70vh] rounded-2xl overflow-hidden object-center object-cover"
+              className="w-full md:h-[70vh] h-[45vh]  rounded-2xl overflow-hidden object-center object-cover"
               src={slide.link}
               alt={`slide-${i}`}
             />

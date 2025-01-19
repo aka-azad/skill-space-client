@@ -108,7 +108,10 @@ const TeachersApplications = () => {
                       ) : (
                         <button
                           className="btn btn-success"
-                          disabled={request.status === "accepted" || request.status === "rejected"}
+                          disabled={
+                            request.status === "accepted" ||
+                            request.status === "rejected"
+                          }
                           onClick={() => handleApprove(request._id)}
                         >
                           {request.status === "accepted"
@@ -142,11 +145,13 @@ const TeachersApplications = () => {
           {applicationsData && (
             <div className="fixed bottom-0 right-0 ml-auto w-full flex justify-between items-center bg-base-200 p-4 border-t border-gray-300 z-[10000]">
               <div>
-                Total Applications:{" "}
-                {applicationsData ? applicationsData.totalTeachers : 0} |
-                Displaying:{" "}
-                {applicationsData ? applicationsData.teachers.length : 0}{" "}
-                applications
+                <p className="text-sm sm:text-base">
+                  Total Applications:{" "}
+                  {applicationsData ? applicationsData.totalTeachers : 0} |
+                  Displaying:{" "}
+                  {applicationsData ? applicationsData.teachers.length : 0}{" "}
+                  applications
+                </p>{" "}
               </div>
               <div className="join">
                 {Array.from({ length: totalPages }, (_, index) => (
