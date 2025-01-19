@@ -9,7 +9,7 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { Fade } from "react-awesome-reveal";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import AuthContext from "../../Context/AuthContext";
 import SectionTitle from "../../Components/SectionTitle";
 import signupSVG from "../../assets/login-animate.svg";
@@ -35,6 +35,9 @@ const SignIn = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const location = useLocation();
+  const locationState = location.state;
+  const setRoute = locationState?.from || "/";
   const {
     register,
     handleSubmit,
@@ -47,7 +50,7 @@ const SignIn = () => {
     onSuccess: () => {
       toast.success("Sign in successful!");
       queryClient.invalidateQueries(["users"]);
-      navigate("/");
+      navigate(setRoute);
     },
     onError: (error) => {
       toast.error("Error saving sign-in info: " + error.message);

@@ -6,13 +6,15 @@ import {
   FaUsers,
   FaCheckCircle,
 } from "react-icons/fa";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 
 const ClassCard = ({ classItem }) => {
   const navigate = useNavigate();
 
   const handleEnroll = () => {
-    navigate(`/class-details/${classItem._id}`);
+    navigate(`/class-details/${classItem._id}`, {
+      state: { from: `/class-details/${classItem._id}` },
+    });
   };
 
   return (
@@ -40,9 +42,13 @@ const ClassCard = ({ classItem }) => {
         <FaUsers className="mr-2" />
         {classItem.totalEnrolment}
       </p>
-      <button className="btn btn-primary font-bold w-full flex items-center justify-center" onClick={handleEnroll}>
-        <FaCheckCircle className="mr-2" />
-        Enroll
+      <button
+        onClick={handleEnroll}
+        // to={`/class-details/${classItem._id}`}
+        // state={{ from: `/class-details/${classItem._id}` }}
+        className="btn btn-primary font-bold w-full flex items-center justify-center"
+      >
+        <FaCheckCircle className="mr-2" /> Enroll{" "}
       </button>
     </div>
   );
