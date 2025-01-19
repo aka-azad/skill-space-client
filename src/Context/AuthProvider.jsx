@@ -47,7 +47,11 @@ const AuthProvider = ({ children }) => {
               axiosPublic
                 .get(`/users/${currentUser.email}`)
                 .then((roleResponse) => {
-                  setUser({ ...currentUser, role: roleResponse.data.role, authorization: roleResponse.data?.authorization});
+                  setUser({
+                    ...currentUser,
+                    role: roleResponse.data.role,
+                    authorization: roleResponse.data?.authorization,
+                  });
                   setLoading(false);
                 })
                 .catch((error) => {

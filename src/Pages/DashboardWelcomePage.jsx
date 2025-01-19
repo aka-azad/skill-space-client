@@ -4,7 +4,6 @@ import { FaUserCircle } from "react-icons/fa";
 
 const DashboardWelcomePage = () => {
   const { user } = useContext(AuthContext);
-
   return (
     <div className="container max-w-screen-sm mx-auto p-4">
       <div className="bg-accent bg-opacity-20 shadow-md rounded-lg p-6 text-center">

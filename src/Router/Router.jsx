@@ -22,6 +22,9 @@ import ClassProgress from "../Pages/ClassProgress";
 import PrivateRoute from "./PrivateRoute";
 import RedirectHomeRoute from "./RedirectHomeRoute";
 import DashboardWelcomePage from "../Pages/DashboardWelcomePage";
+import TeacherRoute from "./RouteForTeacher";
+import AdminRoute from "./RouteForAdmin";
+import StudentRoute from "./RouteForStudent";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +33,22 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/all-classes", element: <AllClasses /> },
-      { path: "/class-details/:id", element: <PrivateRoute><ClassDetails /></PrivateRoute> },
-      { path: "/make-payments/:id", element: <Payment /> },
+      {
+        path: "/class-details/:id",
+        element: (
+          <PrivateRoute>
+            <ClassDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/make-payments/:id",
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
+      },
       {
         path: "signup",
         element: (
@@ -69,47 +86,111 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <DashboardWelcomePage />,
-      },
-      {
-        path: "add-class",
-        element: <ClassForm />,
-      },
-      {
-        path: "all-classes",
-        element: <AdminClassReview />,
+        element: (
+          <PrivateRoute>
+            <DashboardWelcomePage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
+        path: "add-class",
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <ClassForm />
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "all-classes",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AdminClassReview />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+
+      {
         path: "users",
-        element: <UsersManagement />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <UsersManagement />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-class",
-        element: <MyClass />,
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <MyClass />
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-class/details/:id",
-        element: <MyClassDetails />,
+        element: (
+          <PrivateRoute>
+            <TeacherRoute>
+              <MyClassDetails />
+            </TeacherRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "enrolled-classes",
-        element: <EnrolledClasses />,
+        element: (
+          <PrivateRoute>
+            <StudentRoute>
+              <EnrolledClasses />
+            </StudentRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "teachers-applications",
-        element: <TeachersApplications />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <TeachersApplications />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "class/:id",
-        element: <EnrolledClassDetails />,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <StudentRoute>
+              <EnrolledClassDetails />
+            </StudentRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "class-progress/:id",
-        element: <ClassProgress />,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ClassProgress />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       { path: "*", element: <ErrorPage /> },
     ],

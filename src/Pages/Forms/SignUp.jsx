@@ -52,6 +52,7 @@ const SignUp = () => {
       toast.success("User saved successfully!");
       queryClient.invalidateQueries(["users"]);
       navigate("/");
+      window.location.reload()
     },
     onError: (error) => {
       toast.error("Error saving user info: " + error.message);
