@@ -94,7 +94,17 @@ const SignIn = () => {
       });
   };
 
-  
+  const handleDemoSignIn = (role) => {
+    const demoUsers = {
+      Student: { email: "student@email.com", password: "Student1234" },
+      Teacher: { email: "teacher@email.com", password: "Teacher1234" },
+      Admin: { email: "admin@admin.com", password: "Admin1234" },
+    };
+    const user = demoUsers[role];
+    if (user) {
+      onSubmit(user);
+    }
+  };
 
   return (
     <>
@@ -106,11 +116,28 @@ const SignIn = () => {
         <Fade direction="left">
           <div className="sm:pt-10 pb-3">
             <SectionTitle title="Sign In" subtitle="Welcome back" />
-            <div>
-            <p className="text-center text-gray-500">Demo Users </p>
-            <button>Student</button>
-            <button>Teacher</button>
-            <button>Admin</button>
+            <div className="text-center mb-4">
+              <p className="text-lg mb-3 font-bold">Demo Users</p>
+              <div className="flex justify-center gap-4">
+              <button
+                onClick={() => handleDemoSignIn("Student")}
+                className="btn btn-primary hover:bg-blue-700 font-bold py-2 px-4 rounded"
+              >
+                Student
+              </button>
+              <button
+                onClick={() => handleDemoSignIn("Teacher")}
+                className="btn btn-primary hover:bg-blue-700 font-bold py-2 px-4 rounded"
+              >
+                Teacher
+              </button>
+              <button
+                onClick={() => handleDemoSignIn("Admin")}
+                className="btn btn-primary hover:bg-blue-700 font-bold py-2 px-4 rounded"
+              >
+                Admin
+              </button>
+            </div>
             </div>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -131,7 +158,6 @@ const SignIn = () => {
                   {errors.email.message}
                 </p>
               )}
-
               <label className="input input-bordered flex items-center gap-2 mb-4">
                 <FaLock className="h-4 w-4 opacity-70" />
                 <input
@@ -153,7 +179,6 @@ const SignIn = () => {
                   {errors.password.message}
                 </p>
               )}
-
               <button
                 type="submit"
                 className="btn btn-primary hover:bg-blue-700 font-bold py-2 px-4 rounded"
