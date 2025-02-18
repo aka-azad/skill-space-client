@@ -17,7 +17,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <div className="py-12 bg-base-200">
+    <div className="py-12 bg-accent bg-opacity-10">
       <div className="container max-w-[1280px] mx-auto">
         <h2 className="text-3xl font-bold mb-8 text-center">
           What People Say About Us

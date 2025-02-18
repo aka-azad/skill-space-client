@@ -17,12 +17,12 @@ const UpcomingEvents = () => {
   ];
 
   return (
-    <div className="py-12 bg-accent bg-opacity-65">
+    <div className="py-12 bg-accent bg-opacity-30">
       <div className="container max-w-[1280px] mx-auto">
         <SectionTitle  title="Upcoming Events" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {events.map((event, index) => (
-            <div key={index} className="bg-base-200 p-6 rounded-lg shadow-lg">
+            <div key={index} className="bg-accent bg-opacity-30 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-2">{event.title}</h3>
               <p className=" mb-4">{event.date}</p>
               <p className="text-lg">{event.description}</p>

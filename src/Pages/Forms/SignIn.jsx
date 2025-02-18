@@ -94,6 +94,8 @@ const SignIn = () => {
       });
   };
 
+  
+
   return (
     <>
       <Helmet>
@@ -104,6 +106,12 @@ const SignIn = () => {
         <Fade direction="left">
           <div className="sm:pt-10 pb-3">
             <SectionTitle title="Sign In" subtitle="Welcome back" />
+            <div>
+            <p className="text-center text-gray-500">Demo Users </p>
+            <button>Student</button>
+            <button>Teacher</button>
+            <button>Admin</button>
+            </div>
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="max-w-sm mx-auto"

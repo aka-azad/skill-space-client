@@ -4,6 +4,7 @@ import logo from "../assets/logo-big.png";
 import { useContext } from "react";
 import AuthContext from "../Context/AuthContext";
 import { Helmet } from "react-helmet-async";
+import ThemeToggler from "../Components/ThemeToggler";
 
 const Dashboard = () => {
   const { signOutUser, user } = useContext(AuthContext);
@@ -32,6 +33,14 @@ const Dashboard = () => {
           className="block hover:bg-gray-600 p-2 rounded"
         >
           All Courses
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to="/dashboard/analytics"
+          className="block hover:bg-gray-600 p-2 rounded"
+        >
+          Analytics
         </NavLink>
       </li>
       {/* <li>
@@ -119,19 +128,25 @@ const Dashboard = () => {
 
   return (
     <>
-    <Helmet>
-      <title>Skill Space | Dashboard</title>
-      <meta name="description" content="Dashboard"/>
-    </Helmet>
+      <Helmet>
+        <title>Skill Space | Dashboard</title>
+        <meta name="description" content="Dashboard" />
+      </Helmet>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
           <div className="text-xl h-16 fixed top-0 right-0 w-full z-[1000] flex justify-between items-center font-bold  bg-accent bg-opacity-70 backdrop-blur-md text-base-content">
-            <div className="flex  items-center my-2">
-              <img className="h-7 w-7 mr-2 ml-6" src={logo} alt="Logo" />
-              <p>
-                Skill<span className=""> Space</span>
-              </p>
+            <div className="flex justify-between items-center w-full my-2">
+              <div className="flex items-center">
+                <img className="h-7 w-7 mr-2 ml-6" src={logo} alt="Logo" />
+                <p>
+                  Skill<span className=""> Space</span>
+                </p>
+              </div>
+              <div className="pr-6">
+
+              <ThemeToggler />
+              </div>
             </div>
             <label
               htmlFor="my-drawer-2"
@@ -154,8 +169,11 @@ const Dashboard = () => {
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <ul className="menu bg-base-200 pt-16 text-base-content min-h-full w-80 p-4">
             <li>
-              <NavLink to="/" className="block text-black font-bold hover:bg-gray-600 p-2 rounded">
-               Back To Home
+              <NavLink
+                to="/"
+                className="block font-bold hover:bg-gray-600 p-2 rounded"
+              >
+                Back To Home
               </NavLink>
             </li>
             <li>
