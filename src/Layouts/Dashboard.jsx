@@ -135,7 +135,7 @@ const Dashboard = () => {
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-          <div className="text-xl h-16 fixed top-0 right-0 w-full z-[1000] flex justify-between items-center font-bold  bg-accent bg-opacity-70 backdrop-blur-md text-base-content">
+          <div className="text-xl h-16 fixed top-0 right-0 w-full z-[1000] flex justify-between items-center font-bold  bg-accent bg-opacity-40 backdrop-blur-md text-base-content">
             <div className="flex justify-between items-center w-full my-2">
               <div className="flex items-center">
                 <img className="h-7 w-7 mr-2 ml-6" src={logo} alt="Logo" />
@@ -160,8 +160,9 @@ const Dashboard = () => {
               <FaBars />
             </label>
           </div>
-          <div className="flex-1 pt-16 p-4 w-full">
+          <div className="flex-1 pt-16 py-4 w-full">
             <Outlet />
+
           </div>
         </div>
         <div className="drawer-side">
