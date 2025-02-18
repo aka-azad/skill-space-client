@@ -26,22 +26,22 @@ const ClassCard = ({ classItem }) => {
       />
       <h3 className="text-xl font-bold mb-2 truncate">{classItem.title}</h3>
       <p className="text-accent-content mb-2 flex items-center truncate">
-        <FaUser className="mr-2" />
+        <FaUser className="mr-2 text-blue-500" />
         {classItem.name}
       </p>
       <p className="text-accent-content mb-2 flex items-center truncate">
-        <FaDollarSign className="mr-2" />${classItem.price}
+        <FaDollarSign className="mr-2 text-green-500" />${classItem.price}
       </p>
       <div className="text-accent-content mb-2 flex ">
         <p>
-          <FaClipboardList className="text-base mr-2 w-4 h-4 mt-1" />
+          <FaClipboardList className="text-base text-yellow-500 mr-2 w-4 h-4 mt-1" />
         </p>
         <div className="h-12 overflow-hidden">
           <p className="">{classItem.description}</p>
         </div>
       </div>
       <p className="text-accent-content mb-4 flex items-center truncate">
-        <FaUsers className="mr-2" />
+        <FaUsers className="mr-2 text-purple-500" />
         {classItem.totalEnrolment || 0} Enrolled
       </p>
       <button
