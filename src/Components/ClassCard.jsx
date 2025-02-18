@@ -32,15 +32,17 @@ const ClassCard = ({ classItem }) => {
       <p className="text-accent-content mb-2 flex items-center truncate">
         <FaDollarSign className="mr-2" />${classItem.price}
       </p>
-      <div className="text-accent-content mb-2 flex items-center">
+      <div className="text-accent-content mb-2 flex ">
         <p>
-          <FaClipboardList className="text-base mr-2 w-4 h-4" />
+          <FaClipboardList className="text-base mr-2 w-4 h-4 mt-1" />
         </p>
-        <p className="truncate">{classItem.description}</p>
+        <div className="h-12 overflow-hidden">
+          <p className="">{classItem.description}</p>
+        </div>
       </div>
       <p className="text-accent-content mb-4 flex items-center truncate">
         <FaUsers className="mr-2" />
-        {classItem.totalEnrolment}
+        {classItem.totalEnrolment || 0} Enrolled
       </p>
       <button
         onClick={handleEnroll}
@@ -48,7 +50,7 @@ const ClassCard = ({ classItem }) => {
         // state={{ from: `/class-details/${classItem._id}` }}
         className="btn btn-primary font-bold w-full flex items-center justify-center"
       >
-        <FaCheckCircle className="mr-2" /> Enroll{" "}
+        <FaCheckCircle className="mr-2" /> View Details{" "}
       </button>
     </div>
   );

@@ -17,6 +17,9 @@ const RootNavbar = () => {
       <li>
         <NavLink to={"/all-classes"}>All Classes</NavLink>
       </li>
+      <li>
+        <NavLink to={"/popular-classes"}>Popular Classes</NavLink>
+      </li>
     </>
   );
   const privateLinks = (

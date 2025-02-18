@@ -25,6 +25,7 @@ import DashboardWelcomePage from "../Pages/DashboardWelcomePage";
 import TeacherRoute from "./RouteForTeacher";
 import AdminRoute from "./RouteForAdmin";
 import StudentRoute from "./RouteForStudent";
+import PopularClasses from "../Pages/PopularClasses";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +34,11 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/all-classes", element: <AllClasses /> },
+      { path: "/popular-classes", element: <PopularClasses /> },
       {
         path: "/class-details/:id",
         element: (
-          <PrivateRoute>
             <ClassDetails />
-          </PrivateRoute>
         ),
       },
       {
