@@ -104,7 +104,7 @@ const RootNavbar = () => {
                       <p>{user.displayName}</p>
                     </li>
                     <li>
-                      <Link to={"/dashboard"}>Dashboard</Link>
+                      <Link to={"/dashboard/profile"}>Dashboard</Link>
                     </li>
 
                     <li>

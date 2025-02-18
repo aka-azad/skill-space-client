@@ -10,7 +10,11 @@ const ClassDetails = () => {
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
-  const { data: classItem, error, isLoading } = useQuery({
+  const {
+    data: classItem,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["classDetails", id],
     queryFn: () => axiosPublic.get(`/class/${id}`).then((res) => res.data),
   });
@@ -19,7 +23,12 @@ const ClassDetails = () => {
     navigate(`/make-payments/${id}`);
   };
 
-  if (error) return <div className="text-red-500 text-center font-semibold">Error loading class details: {error.message}</div>;
+  if (error)
+    return (
+      <div className="text-red-500 text-center font-semibold">
+        Error loading class details: {error.message}
+      </div>
+    );
 
   return (
     <div className="container max-w-screen-md mx-auto p-6">
@@ -38,14 +47,16 @@ const ClassDetails = () => {
               <FaUser className="mr-2 text-blue-500" /> {classItem.name}
             </p>
             <p className="text-lg font-semibold flex items-center">
-              <FaDollarSign className="mr-2 text-green-500" /> ${classItem.price}
+              <FaDollarSign className="mr-2 text-green-500" /> $
+              {classItem.price}
             </p>
             <p className="text-base flex items-start">
               <FaClipboardList className="mr-2 text-yellow-500 w-5 h-5" />
               <span>{classItem.description}</span>
             </p>
             <p className="text-lg font-semibold flex items-center">
-              <FaUsers className="mr-2 text-purple-500" /> {classItem.totalEnrolment} Students Enrolled
+              <FaUsers className="mr-2 text-purple-500" />{" "}
+              {classItem.totalEnrolment} Students Enrolled
             </p>
           </div>
           <button

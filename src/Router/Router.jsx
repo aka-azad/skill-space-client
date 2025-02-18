@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import Root from "../Layouts/Root";
 import Dashboard from "../Layouts/Dashboard";
 import ErrorPage from "../Pages/ErrorPage";
@@ -21,11 +21,11 @@ import MyClassDetails from "../Pages/MyClassDetails";
 import ClassProgress from "../Pages/ClassProgress";
 import PrivateRoute from "./PrivateRoute";
 import RedirectHomeRoute from "./RedirectHomeRoute";
-import DashboardWelcomePage from "../Pages/DashboardWelcomePage";
 import TeacherRoute from "./RouteForTeacher";
 import AdminRoute from "./RouteForAdmin";
 import StudentRoute from "./RouteForStudent";
 import PopularClasses from "../Pages/PopularClasses";
+import Analytics from "../Pages/Analytics";
 
 const router = createBrowserRouter([
   {
@@ -84,11 +84,13 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {index: true, element: <Navigate to="/dashboard/profile" replace/>},
+      
       {
-        path: "/dashboard",
+        path: "analytics",
         element: (
           <PrivateRoute>
-            <DashboardWelcomePage />
+            <Analytics />
           </PrivateRoute>
         ),
       },

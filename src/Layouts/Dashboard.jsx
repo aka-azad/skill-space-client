@@ -13,6 +13,14 @@ const Dashboard = () => {
     <>
       <li>
         <NavLink
+          to="/dashboard/analytics"
+          className="block hover:bg-gray-600 p-2 rounded"
+        >
+          Analytics
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
           to="/dashboard/users"
           className="block hover:bg-gray-600 p-2 rounded"
         >
@@ -33,14 +41,6 @@ const Dashboard = () => {
           className="block hover:bg-gray-600 p-2 rounded"
         >
           All Courses
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/dashboard/analytics"
-          className="block hover:bg-gray-600 p-2 rounded"
-        >
-          Analytics
         </NavLink>
       </li>
       {/* <li>
@@ -144,8 +144,7 @@ const Dashboard = () => {
                 </p>
               </div>
               <div className="pr-6">
-
-              <ThemeToggler />
+                <ThemeToggler />
               </div>
             </div>
             <label
@@ -171,7 +170,7 @@ const Dashboard = () => {
             <li>
               <NavLink
                 to="/"
-                className="block font-bold hover:bg-gray-600 p-2 rounded"
+                className="block hover:bg-gray-600 p-2 rounded"
               >
                 Back To Home
               </NavLink>
