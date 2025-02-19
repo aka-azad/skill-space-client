@@ -54,7 +54,7 @@ const partnerData = [
 
 const PartnersSection = () => {
   return (
-    <section className="py-12  bg-base-200">
+    <section className="py-12  bg-accent bg-opacity-30">
       <div className="container max-w-[1280px] mx-auto">
         <SectionTitle title="Our Partners" subtitle="We Work Together" />
         <Swiper

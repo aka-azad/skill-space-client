@@ -27,6 +27,9 @@ const RootNavbar = () => {
       <li>
         <NavLink to={"/teach-on-skill-space"}>Teach on Skill Space</NavLink>
       </li>
+      <li>
+        <NavLink to={"/dashboard/profile"}>Profile</NavLink>
+      </li>
     </>
   );
 
@@ -72,7 +75,7 @@ const RootNavbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             {links}
-            {user  && privateLinks}
+            {user && privateLinks}
           </ul>
         </div>
         <div className="navbar-end">
@@ -83,9 +86,7 @@ const RootNavbar = () => {
             </>
           ) : user ? (
             <>
-              <div
-                
-              >
+              <div>
                 <div className="dropdown dropdown-end">
                   <div
                     tabIndex={0}
@@ -115,7 +116,6 @@ const RootNavbar = () => {
                   </ul>
                 </div>
               </div>
-              
             </>
           ) : location.pathname === "/sign-in" ? (
             <Link

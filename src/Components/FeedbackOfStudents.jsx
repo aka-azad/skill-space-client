@@ -50,7 +50,7 @@ const FeedbackOfStudents = () => {
   if (error) return <div>Error loading feedbacks: {error.message}</div>;
 
   return (
-    <div className="py-12 bg-base-200">
+    <div className="py-12 bg-accent bg-opacity-30">
       <div className="container max-w-[1280px] mx-auto">
         <SectionTitle title="Feedback From Our Students" />
         {isLoading ? (
